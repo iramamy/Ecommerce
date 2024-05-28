@@ -5,19 +5,17 @@ from .forms import UserRegisterForm
 from .models import User
 
 
-
 def register(request):
 
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        
 
         if form.is_valid():
 
             new_user = form.save()
             username = form.cleaned_data['username']
 
-            messages.success(request, f"{username}, your account was created successfully.")
+            messages.success(request, f"{username}, your account was created successfully.") # noqa
 
             new_user = auth.authenticate(
                 username=form.cleaned_data['email'],
@@ -54,9 +52,9 @@ def signin(request):
             )
 
             user = auth.authenticate(
-            request, 
-            email=email, 
-            password=password
+                request,
+                email=email,
+                password=password
             )
 
             if user is not None:

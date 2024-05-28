@@ -21,7 +21,6 @@ class UserRegisterForm(UserCreationForm):
         'placeholder': 'Confirm password'
     }))
 
-    
     class Meta:
         model = User
         fields = [
