@@ -163,7 +163,7 @@
             <div class="container">
                 <div class="header-wrap">
                     <div class="logo logo-width-1">
-                        <a href="index.html"><img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" /></a>
+                        <a href="{% url 'home' %}"><img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" /></a>
                     </div>
                     <div class="header-right">
                         <div class="search-style-2">
@@ -276,7 +276,11 @@
                                             <li><a href="page-account.html"><i class="fi fi-rs-label mr-10"></i>My Voucher</a></li>
                                             <li><a href="shop-wishlist.html"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a></li>
                                             <li><a href="page-account.html"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a></li>
-                                            <li><a href="page-login.html"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
+                                            {% if request.user.is_authenticated %}
+                                            <li><a href="{% url 'signout' %}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
+                                            {% else %}
+                                            <li><a href="{% url 'signin' %}"><i class="fi fi-rs-sign-in mr-10"></i>Login</a></li>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </div>
@@ -290,7 +294,7 @@
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+                        <a href="{% url 'home' %}"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
                     </div>
                     <div class="header-nav d-none d-lg-flex">
                         <div class="main-categori-wrap d-none d-lg-block">
@@ -363,7 +367,7 @@
                                 <ul>
                                     <li class="hot-deals"><img src="{% static 'assets/imgs/theme/icons/icon-hot.svg' %}" alt="hot deals" /><a href="shop-grid-right.html">Deals</a></li>
                                     <li>
-                                        <a class="active" href="index.html">Home <i class="fi-rs-angle-down"></i></a>
+                                        <a class="active" href="{% url 'home' %}">Home <i class="fi-rs-angle-down"></i></a>
                                         <ul class="sub-menu">
                                             <li><a href="index.html">Home 1</a></li>
                                             <li><a href="index-2.html">Home 2</a></li>
@@ -587,6 +591,20 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Message -->
+                {% if messages %}
+                    {% for message in messages%}
+                    
+                    <div id="message" class="alert alert-{{message.tags}} alert-dismissible fade show text-center w-75 mx-auto" role="alert">
+                        <button class="btn-close" data-bs-dismiss="alert"></button>
+                        <b>{{message}}</b>
+                    </div>
+
+                    {% endfor %}
+                {% endif %}
+                <!-- // Message -->
+
             </div>
         </div>
     </header>
@@ -594,7 +612,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="index.html"><img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" /></a>
+                    <a href="{% url 'home' %}"><img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" /></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -615,7 +633,7 @@
                     <nav>
                         <ul class="mobile-menu font-heading">
                             <li class="menu-item-has-children">
-                                <a href="index.html">Home</a>
+                                <a href="{% url 'home' %}">Home</a>
                                 <ul class="dropdown">
                                     <li><a href="index.html">Home 1</a></li>
                                     <li><a href="index-2.html">Home 2</a></li>

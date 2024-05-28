@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+
+from django.contrib.messages import constants as messages
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "core",
+    "userauths",
 ]
 
 MIDDLEWARE = [
@@ -138,4 +141,10 @@ JAZZMIN_SETTINGS = {
     'site_brand': 'Your order, we deliver',
     'site_logo': '/assets/imgs/theme/logo.svg',
     'copyright': "mamy@niaina.com"
+}
+
+AUTH_USER_MODEL = 'userauths.User'
+
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
 }
