@@ -26,8 +26,15 @@ class ProductAdmin(admin.ModelAdmin):
         'title',
         'product_image',
         'price',
+        'category',
+        'vendor',
         'featured',
         'product_status',
+    ]
+
+    list_filter = [
+        'category',
+        'vendor',
     ]
 
 
@@ -42,6 +49,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class VendorAdmin(admin.ModelAdmin):
 
     list_display = [
+        'user',
         "title",
         'vendor_image',
     ]

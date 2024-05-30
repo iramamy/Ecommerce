@@ -4122,7 +4122,7 @@ table .product-thumbnail img {
 .product-cart-wrap .product-action-1 {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 55%;
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
     opacity: 0;
@@ -5000,7 +5000,7 @@ table .product-thumbnail img {
     justify-content: space-between;
     position: relative;
     bottom: unset;
-    padding: 0 20px;
+    padding: 0 15px;
     margin-top: 20px;
     -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);

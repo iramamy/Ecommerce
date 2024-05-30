@@ -101,7 +101,13 @@ class Product(models.Model):
         )
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True) # noqa
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True) # noqa
+    category = models.ForeignKey(
+        Category, 
+        on_delete=models.SET_NULL, 
+        null=True,
+        related_name='category',
+        )
+    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True) # noqa
 
     title = models.CharField(max_length=100, default="Title here")
     image = models.ImageField(upload_to=user_directory_path, default='product.jpg') # noqa
@@ -139,7 +145,7 @@ class Product(models.Model):
     def __str__(self):
         return str(self.title)
 
-    def get_percentage(slef):
+    def get_percentage(self):
         new_price = (self.price / self.old_price) * 100
         return new_price
 
