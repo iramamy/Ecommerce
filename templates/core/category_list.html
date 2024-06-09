@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
 
 <main class="main">
   <div class="page-header mt-30 mb-75">
@@ -93,15 +95,16 @@
             </div>
           </div>
           <div class="loop-grid pr-30">
-            <div class="row">
+            <div class="row gap-2">
               {% for category in categories%}
-              <article
-                class="col-xl-4 col-lg-6 col-md-6 text-center hover-up mb-30 animated"
+
+              <div
+                class="col-xl-4 col-lg-6 col-md-6 text-center hover-up mb-30 animated pt-1 "
               >
-                <div class="post-thumb">
-                  <a href="blog-post-right.html">
+                <div class="post-thumb ">
+                  <a href="{% url 'product_per_category' category.title category.cid %}">
                     <img
-                      class="border-radius-15"
+                      class="img-fluid"
                       src="{{ category.image.url }}"
                       alt=""
                     />
@@ -113,30 +116,22 @@
                   </div>
                 </div>
                 <div class="entry-content-2">
-                  <h6 class="mb-10 font-sm">
-                    <a
-                      class="entry-meta text-muted"
-                      href="blog-category-grid.html"
-                      >Side Dish</a
-                    >
-                  </h6>
                   <h4 class="post-title mb-15">
-                    <a href="blog-post-right.html"
+                    <a href="{% url 'product_per_category' category.title category.cid %}"
                       >{{ category.title | capfirst }}</a
                     >
                   </h4>
                   <div class="entry-meta font-xs color-grey mt-10 pb-10">
+
                     <div>
-                      <!-- <span class="post-on mr-10">25 April 2022</span>
-                      <span class="hit-count has-dot mr-10">126k Views</span>
-                      <span class="hit-count has-dot">4 mins read</span> -->
                       <span>
                         {{category.category.count}} Product{{category.category.count|pluralize:"s"}}
                       </span>
                     </div>
+
                   </div>
                 </div>
-              </article>
+              </div>
               {% endfor %}
             </div>
           </div>
@@ -179,6 +174,7 @@
             <div class="sidebar-widget widget-category-2 mb-50">
               <h5 class="section-title style-1 mb-30">Category</h5>
               <ul>
+                 
                 {% for category in categories %}
                 <li>
                   <a href="shop-grid-right.html">

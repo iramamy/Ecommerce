@@ -373,6 +373,8 @@ input[type=number]:focus,
     transform: translateY(-5px);
     -webkit-transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
     transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+    border-radius: 20px;
+    border: 1px solid #d1d1d1;
 }
 
 .text-brand {
@@ -5899,6 +5901,7 @@ table.no-border thead {
     margin-bottom: 20px;
 }
 
+
 .post-list .post-thumb {
     max-width: 221px;
     overflow: hidden;
@@ -6258,9 +6261,9 @@ h6.post-title {
     padding: 30px;
 }
 
-.loop-grid .entry-content-2 {
-    padding: 20px 30px;
-}
+/* .loop-grid .entry-content-2 {
+    padding: 10px 15px;
+} */
 
 .loop-grid.loop-list {
     position: relative;
