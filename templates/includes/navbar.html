@@ -362,12 +362,16 @@
                                     <li>
                                         <a href="#">Vendors <i class="fi-rs-angle-down"></i></a>
                                         <ul class="sub-menu">
-                                            <li><a href="vendors-grid.html">Vendors Grid</a></li>
-                                            <li><a href="vendors-list.html">Vendors List</a></li>
-                                            <li><a href="vendor-details-1.html">Vendor Details 01</a></li>
-                                            <li><a href="vendor-details-2.html">Vendor Details 02</a></li>
-                                            <li><a href="vendor-dashboard.html">Vendor Dashboard</a></li>
-                                            <li><a href="vendor-guide.html">Vendor Guide</a></li>
+                                            {% for vendor in vendors %}
+                                                <li>
+                                                    <a href="{% url 'vendor_detail' vendor.title vendor.vid %}">{{vendor.title}}</a>
+                                                </li>
+                                            {% endfor %}
+                                                
+                                            <li>
+                                                <a href="{% url 'vendor_list' %}">All vendors</a>
+                                            </li>
+
                                         </ul>
                                     </li>
                                     <li class="position-static">

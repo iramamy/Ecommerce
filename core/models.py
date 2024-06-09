@@ -69,6 +69,7 @@ class Vendor(models.Model):
 
     title = models.CharField(max_length=100, default="Nestify")
     image = models.ImageField(upload_to=user_directory_path, default='vendor.jpg') # noqa
+    cover_image = models.ImageField(upload_to=user_directory_path, default='vendor.jpg') # noqa
     description = models.TextField(null=True, blank=True, default='I am a vendor') # noqa
 
     address = models.CharField(max_length=100, default='123 Street Road')
@@ -79,6 +80,8 @@ class Vendor(models.Model):
     authentic_rating = models.CharField(max_length=100, default='100')
     days_return = models.CharField(max_length=100, default='100')
     warranty_period = models.CharField(max_length=100, default='100')
+
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
 
     class Meta:
@@ -93,6 +96,7 @@ class Vendor(models.Model):
 
 
 class Product(models.Model):
+
     pid = ShortUUIDField(
         unique=True, 
         length=10, 
@@ -101,13 +105,20 @@ class Product(models.Model):
         )
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True) # noqa
+
     category = models.ForeignKey(
         Category, 
         on_delete=models.SET_NULL, 
         null=True,
         related_name='category',
         )
-    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True) # noqa
+
+    vendor = models.ForeignKey(
+        Vendor, 
+        on_delete=models.SET_NULL, 
+        null=True,
+        related_name='vendor'
+        )
 
     title = models.CharField(max_length=100, default="Title here")
     image = models.ImageField(upload_to=user_directory_path, default='product.jpg') # noqa
@@ -152,7 +163,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     image = models.ImageField(upload_to='product_images/', default='product.jpg') # noqa
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True) # noqa
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='p_images') # noqa
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:

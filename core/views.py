@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Product, Category
+from django.db.models import Count, Q
+from .models import Product, Category, Vendor
 
 # Create your views here.
 
@@ -71,9 +71,7 @@ def category_list(request):
 
  
 def product_per_category(request, category_name, cid):
-    """
-        
-    """
+
     category = Category.objects.get(cid=cid)
     products = Product.objects.filter(
         product_status='published',
@@ -87,3 +85,47 @@ def product_per_category(request, category_name, cid):
 
     return render(request, 'core/product_per_category.html', context)
 
+
+def vendor_list(request):
+    vendors = Vendor.objects.annotate(
+        product_count=Count('vendor', filter=Q(vendor__product_status='published'))
+    )
+    context = {
+        'vendors': vendors
+    }
+
+    return render(request, 'core/vendor.html', context)
+
+
+def vendor_detail(request, vendor_name, vid):
+    vendor = Vendor.objects.get(vid=vid)
+
+    products_per_vendor = Product.objects.filter(
+        vendor=vendor, 
+        product_status='published'
+    )
+
+    product_counts = products_per_vendor.values(
+        'category__title',
+        'category__image'
+        ).annotate(count=Count('id'))
+
+    context = {
+        'vendor': vendor,
+        'products': products_per_vendor,
+        'product_counts': product_counts
+    }
+
+    return render(request, 'core/vendor_detail.html', context)
+
+def product_detail(request, category_name, pid):
+    product = Product.objects.get(pid=pid)
+
+    p_images = product.p_images.all()
+    
+    context = {
+        "product": product,
+        "p_images": p_images,
+    }
+    
+    return render(request, 'core/product_detail.html', context)
