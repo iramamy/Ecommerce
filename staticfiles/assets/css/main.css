@@ -383,8 +383,8 @@ input[type=number]:focus,
     transform: translateY(-5px);
     -webkit-transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
     transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
-    border-radius: 20px;
-    border: 1px solid #d1d1d1;
+    /* border-radius: 20px;
+    border: 1px solid #d1d1d1; */
 }
 
 .text-brand {
@@ -5894,7 +5894,7 @@ table.no-border thead {
     padding: 10px 20px;
     border: 1px solid #ececec;
     font-family: "Quicksand", sans-serif;
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -9690,9 +9690,9 @@ span.fi-rs-apps {
     padding: 0;
 }
 
-.widget-tags li {
+/* .widget-tags li {
     margin: 0 20px 20px 0;
-}
+} */
 
 .widget_instagram .insta-feed {
     padding-top: 5px;

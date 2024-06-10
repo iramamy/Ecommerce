@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count, Q
 from taggit.models import Tag
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 from .models import Product, Category, Vendor
 
 # Create your views here.
@@ -42,9 +44,11 @@ def product_list(request):
     products = Product.objects.filter(
         product_status='published'
     )
+    product_count = products.count()
 
     context = {
-        'products': products
+        'products': products,
+        'product_count': product_count,
     }
 
     return render(request, 'core/product_list.html', context)
@@ -163,3 +167,54 @@ def tag_list(request, tag_slug=None):
     }
 
     return render(request, 'core/tag_list.html', context)
+
+
+def search_product(request):
+    keyword = request.GET.get('keyword', '')
+    products = Product.objects.none()
+    product_count = 0
+    
+    if keyword:
+        products = Product.objects.filter(
+            Q(title__icontains=keyword) | Q(description__icontains=keyword)
+        ).order_by('-date')
+        product_count = products.count()
+
+    context = {
+        'products': products,
+        'product_count': product_count,
+        'keyword': keyword,
+    }
+
+    return render(request, 'core/search.html', context)
+
+
+def filter_product(request):
+    categories_id = request.GET.getlist('category[]')
+    vendors_id = request.GET.getlist('vendor[]')
+    tags_id = request.GET.getlist('tags[]')
+
+    products = Product.objects.filter(
+        product_status='published'
+    ).order_by('-id').distinct()
+
+    if len(categories)>0:
+        products = products.filter(category__id__in=categories_id).distinct()
+
+    if len(vendors)>0:
+        products = products.filter(vendor__id__in=vendors_id).distinct()
+
+    if len(tags)>0:
+        products = products.filter(tags__id__in=tags_id).distinct()
+
+
+    context = {
+        'products': products,
+        'product_count': products.count(),
+    }
+
+    data = render_to_string('core/async/product_list.html', context)
+
+    return JsonResponse({
+        "data": data
+    })

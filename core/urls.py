@@ -23,6 +23,12 @@ urlpatterns = [
     path("products/<category_name>/<pid>/", views.product_detail, name='product_detail'),
 
     # Tags
-    path('products-tag/<tag_slug>/', views.tag_list, name='tag_list')
+    path('products-tag/<tag_slug>/', views.tag_list, name='tag_list'),
+
+    # Search
+    path('search/', views.search_product, name='search_product'),
+
+    # Filter
+    path('filter-product/', views.filter_product, name='filter_product'),
 
 ]

@@ -9,7 +9,10 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
                             <div class="detail-gallery">
-                                <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                <span class="zoom-icon">
+                                    <i class="fi-rs-search">
+
+                                    </i></span>
 
                                 <!-- MAIN SLIDES -->
                                 <div class="product-image-slider">
@@ -167,7 +170,7 @@
                     </div>
                     <div class="header-right">
                         <div class="search-style-2">
-                            <form action="#">
+                            <form action="{% url 'search_product' %}" method="GET">
                                 <select class="select-active">
                                     <option>All Categories</option>
                                     {% for category in categories %}
@@ -175,7 +178,10 @@
                                     {% endfor %}
                                     
                                 </select>
-                                <input type="text" placeholder="Search for items..." />
+                                <input name="keyword" type="text" placeholder="Search for items..." />
+                                <button type="submit">
+                                    <i class="fi-rs-search text-muted"></i>
+                                </button>
                             </form>
                         </div>
                         <div class="header-action-right">
@@ -289,7 +295,8 @@
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="{% url 'home' %}"><img src="assets/imgs/theme/logo.svg" alt="logo" /></a>
+                        <a href="{% url 'home' %}">
+                            <img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" /></a>
                     </div>
                     <div class="header-nav d-none d-lg-flex">
                         <div class="main-categori-wrap d-none d-lg-block">
@@ -552,6 +559,7 @@
             </div>
         </div>
     </header>
+
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">

@@ -28,38 +28,27 @@
                 <h5 class="mb-30">By Categories</h5>
                 <div class="categories-dropdown-wrap font-heading">
                   <ul>
-                    <li>
-                      <a href="shop-grid-right.html">
+                    
+                    {% for category in categories %}
+                    <li class="d-flex justify-content-between">
+                      <a href="{% url 'product_per_category' category.title category.cid %}">
                         <img
-                          src="{% static 'assets/imgs/theme/icons/category-1.svg' %}"
+                        class="img-fluid"
+                          src="{{category.image.url}}"
                           alt=""
-                        />Milks and Dairies</a
-                      >
+                        />{{category.title|capfirst}}
+                        </a>
+                      <input
+                      class="form-check-input filter-checkbox"
+                      type="checkbox"
+                      name="checkbox"
+                      id="exampleCheckbox3"
+                      data-filter="category"
+                      value="{{category.id}}"
+                      />
                     </li>
-                    <li>
-                      <a href="shop-grid-right.html">
-                        <img
-                          src="{% static 'assets/imgs/theme/icons/category-2.svg' %}"
-                          alt=""
-                        />Clothing &amp; beauty</a
-                      >
-                    </li>
-                    <li>
-                      <a href="shop-grid-right.html">
-                        <img
-                          src="{% static 'assets/imgs/theme/icons/category-3.svg' %}"
-                          alt=""
-                        />Pet Foods &amp; Toy</a
-                      >
-                    </li>
-                    <li class="mb-0">
-                      <a href="shop-grid-right.html">
-                        <img
-                          src="{% static 'assets/imgs/theme/icons/category-4.svg' %}"
-                          alt=""
-                        />Baking material</a
-                      >
-                    </li>
+                    {% endfor %}
+                    
                   </ul>
                 </div>
               </div>
@@ -68,206 +57,55 @@
               <div class="card">
                 <h5 class="mb-30">By Vendors</h5>
                 <div class="d-flex">
-                  <div class="custome-checkbox mr-80">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox1"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox1"
-                      ><span>Aldi</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox2"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox2"
-                      ><span>Adidas</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox3"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox3"
-                      ><span>Burbe</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox4"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox4"
-                      ><span>Chanel</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox5"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox5"
-                      ><span>Prada</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox6"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox6"
-                      ><span>Kroger</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox7"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox7"
-                      ><span>Traders</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox8"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox8"
-                      ><span>Publix</span></label
-                    >
+                  <div class="d-flex flex-column mr-80">
+                    
+                    
+                    {% for vendor in vendors %}
+                      <div class="d-flex gap-3 mb-10">
+                        <input
+                          class="form-check-input filter-checkbox"
+                          type="checkbox"
+                          name="checkbox"
+                          id="exampleCheckbox1"
+                          data-filter="vendor"
+                          value="{{vendor.id}}"
+                        />
+                        <label class="form-check-label" for="exampleCheckbox1">
+                          <span>{{vendor.title | capfirst}}</span>
+                        </label>
+                      </div>
+                    {% endfor %}
+                    
                   </div>
-                  <div class="custome-checkbox">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox11"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox11"
-                      ><span>Harris</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox21"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox21"
-                      ><span>Costco</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox31"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox31"
-                      ><span>Targets</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox41"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox41"
-                      ><span>Green Tea</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox51"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox51"
-                      ><span>iSnack</span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox61"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox61"
-                      ><span>Pambox</span></label
-                    >
-                  </div>
+
                 </div>
               </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
               <div class="card">
-                <h5 class="mb-30">By Tags</h5>
-                <div class="sidebar-widget widget-tags">
-                  <ul class="tags-list">
-                    <li class="hover-up">
-                      <a href="blog-category-grid.html"
-                        ><i class="fi-rs-cross mr-10"></i>Milk</a
-                      >
-                    </li>
-                    <li class="hover-up">
-                      <a href="blog-category-grid.html"
-                        ><i class="fi-rs-cross mr-10"></i>Broccoli</a
-                      >
-                    </li>
-                    <li class="hover-up">
-                      <a href="blog-category-grid.html"
-                        ><i class="fi-rs-cross mr-10"></i>Smoothie</a
-                      >
-                    </li>
-                    <li class="hover-up">
-                      <a href="blog-category-grid.html"
-                        ><i class="fi-rs-cross mr-10"></i>Fruit</a
-                      >
-                    </li>
-                    <li class="hover-up mr-0">
-                      <a href="blog-category-grid.html"
-                        ><i class="fi-rs-cross mr-10"></i>Salad</a
-                      >
-                    </li>
-                    <li class="hover-up mr-0">
-                      <a href="blog-category-grid.html"
-                        ><i class="fi-rs-cross mr-10"></i>Appetizer</a
-                      >
-                    </li>
-                    <li class="hover-up mr-0 mb-0">
-                      <a href="blog-category-grid.html"
-                        ><i class="fi-rs-cross mr-10"></i>Appetizer</a
-                      >
-                    </li>
-                  </ul>
+                <h5 class="mb-30">By tags</h5>
+                <div class="d-flex">
+                  <div class="d-flex flex-column mr-80">
+                    
+                    
+                    {% for tag in tags %}
+                      <div class="d-flex gap-3 mb-10">
+                        <input
+                          class="form-check-input filter-checkbox"
+                          type="checkbox"
+                          name="checkbox"
+                          id="exampleCheckboxtag"
+                          data-filter="tags"
+                          value="{{tag.id}}"
+                        />
+                        <label class="form-check-label" for="exampleCheckboxtag">
+                          <span>{{tag | capfirst}}</span>
+                        </label>
+                      </div>
+                    {% endfor %}
+                    
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -362,7 +200,7 @@
         <div class="shop-product-fillter">
           <div class="totall-product">
             <p>
-              We found <strong class="text-brand">29</strong> items for you!
+              We found <strong class="text-brand">{{product_count}}</strong> item{{product_count|pluralize:"s"}} for you!
             </p>
           </div>
           <div class="sort-by-product-area">
@@ -406,7 +244,7 @@
             </div>
           </div>
         </div>
-        <div class="row product-grid">
+        <div class="row product-grid" id="filtered-product">
 
           {% for prod in products %}
           <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">

@@ -2,6 +2,7 @@ from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from userauths.models import User
+from django_ckeditor_5.fields import CKEditor5Field
 
 from taggit.managers import TaggableManager
 
@@ -71,7 +72,7 @@ class Vendor(models.Model):
     title = models.CharField(max_length=100, default="Nestify")
     image = models.ImageField(upload_to=user_directory_path, default='vendor.jpg') # noqa
     cover_image = models.ImageField(upload_to=user_directory_path, default='vendor.jpg') # noqa
-    description = models.TextField(null=True, blank=True, default='I am a vendor') # noqa
+    description = CKEditor5Field(null=True, blank=True, default='I am a vendor', config_name='extends') # noqa
 
     address = models.CharField(max_length=100, default='123 Street Road')
     contact = models.CharField(max_length=100, default='+123 (456) 789')
@@ -123,12 +124,12 @@ class Product(models.Model):
 
     title = models.CharField(max_length=100, default="Title here")
     image = models.ImageField(upload_to=user_directory_path, default='product.jpg') # noqa
-    description = models.TextField(null=True, blank=True, default='This is a product') # noqa
+    description = CKEditor5Field(null=True, blank=True, default='This is a product', config_name='extends') # noqa
 
     price = models.DecimalField(max_digits=99999999, decimal_places=2, default='0.99') # noqa
     old_price = models.DecimalField(max_digits=99999999, decimal_places=2, default='1.99') # noqa
 
-    specifications = models.TextField(null=True, blank=True, default='Specification') # noqa
+    specifications = CKEditor5Field(null=True, blank=True, default='Specification', config_name='extends') # noqa
 
     tags = TaggableManager(blank=True)
 
@@ -169,7 +170,12 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     image = models.ImageField(upload_to='product_images/', default='product.jpg') # noqa
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='p_images') # noqa
+    product = models.ForeignKey(
+        Product, 
+        on_delete=models.SET_NULL,
+        null=True, 
+        related_name='p_images')
+
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
