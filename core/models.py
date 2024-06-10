@@ -1,8 +1,9 @@
 from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
-
 from userauths.models import User
+
+from taggit.managers import TaggableManager
 
 
 STATUS_CHOICE = (
@@ -129,7 +130,7 @@ class Product(models.Model):
 
     specifications = models.TextField(null=True, blank=True, default='Specification') # noqa
 
-    # tags = models.ForeignKey(Tags, on_delete=models.SET_NULL, null=True)
+    tags = TaggableManager(blank=True)
 
     product_status = models.CharField(choices=STATUS, max_length=10, default='in_review') # noqa
 
@@ -137,6 +138,11 @@ class Product(models.Model):
     in_stock = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     digital = models.BooleanField(default=False)
+
+    stock_count = models.PositiveIntegerField(blank=True, null=True)
+    product_type = models.CharField(max_length=100, default="Ornganic", blank=True, null=True)
+    manufactured = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+    life = models.CharField(max_length=100, default="100 Days", blank=True, null=True)
 
     sku = ShortUUIDField(
         unique=True, 

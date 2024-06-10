@@ -407,12 +407,13 @@
           </div>
         </div>
         <div class="row product-grid">
-          {% for prod in products%}
+
+          {% for prod in products %}
           <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
             <div class="product-cart-wrap mb-30">
               <div class="product-img-action-wrap">
                 <div class="product-img product-img-zoom">
-                  <a href="shop-product-right.html">
+                  <a href="{% url 'product_detail' prod.category prod.pid %}">
                     <img
                       class="default-img"
                       src="{{ prod.image.url }}"
@@ -455,7 +456,7 @@
                   <a href="shop-grid-right.html">{{prod.category | capfirst}}</a>
                 </div>
                 <h2>
-                  <a href="shop-product-right.html"
+                  <a href="{% url 'product_detail' prod.category prod.pid %}"
                     >{{prod.title}}</a
                   >
                 </h2>
@@ -467,7 +468,9 @@
                 </div>
                 <div>
                   <span class="font-small text-muted"
-                    >By <a href="vendor-details-1.html">{{prod.vendor}}</a></span
+                    >By 
+                    <a href="{% url 'vendor_detail' prod.vendor prod.vendor.vid %}">{{prod.vendor}}</a>
+                  </span
                   >
                 </div>
                 <div class="product-card-bottom">

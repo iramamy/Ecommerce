@@ -20,6 +20,9 @@ urlpatterns = [
     path("vendor/<vendor_name>/<vid>/", views.vendor_detail, name='vendor_detail'),
 
     # Product detail
-    path("product/<category_name>/<pid>/", views.product_detail, name='product_detail'),
+    path("products/<category_name>/<pid>/", views.product_detail, name='product_detail'),
+
+    # Tags
+    path('products-tag/<tag_slug>/', views.tag_list, name='tag_list')
 
 ]

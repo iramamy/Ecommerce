@@ -9,17 +9,23 @@
                 <div class="row align-items-center">
 
                     <div class="col-xl-3">
-                        <h1 class="mb-15">{{ category.title | capfirst }}</h1>
+                        <h1 class="mb-15">{{ tag | capfirst }}</h1>
                         <div class="breadcrumb">
                             <a href="{% url 'home' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                            <span></span> Shop <span></span> {{ category.title | capfirst }}
+                            <span></span>
+                            <a href="{% url 'product_list' %}">
+                                Shop 
+                            </a>
+                            <span></span> {{ tag | capfirst }}
                         </div>
                     </div>
 
                     <!-- <div class="col-xl-9 text-end d-none d-xl-block">
                         <ul class="tags-list">
                             <li class="hover-up">
-                                <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Cabbage</a>
+                                <a href="blog-category-grid.html">
+                                    <i class="fi-rs-cross mr-10"></i>Cabbage
+                                </a>
                             </li>
                         </ul>
                     </div> -->
