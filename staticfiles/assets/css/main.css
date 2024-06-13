@@ -232,6 +232,10 @@ li.hr span {
     display: block;
 }
 
+/* Cutom */
+#min-price, #max-price {
+    display: none;
+}
 /*--- Common Classes---------------------*/
 
 ::-moz-selection {
@@ -5053,6 +5057,10 @@ table .product-thumbnail img {
     opacity: 0.6;
 }
 
+.slider-nav-thumbnails div {
+    cursor: pointer;
+}
+
 .slider-nav-thumbnails .slick-list {
     margin: 0 -10px;
 }
@@ -9406,7 +9414,6 @@ span.fi-rs-apps {
 }
 
 .price_range {
-    background: url(../imgs/banner/fillter-widget-bg.png) no-repeat right bottom;
     background-size: 150px;
 }
 

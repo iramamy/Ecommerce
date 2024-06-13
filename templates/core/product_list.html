@@ -1,7 +1,7 @@
-{% extends 'base.html' %} 
-{% load static %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <main class="main">
+  <!-- Quick view -->
+
   <div class="page-header breadcrumb-wrap">
     <div class="container">
       <div class="breadcrumb">
@@ -28,27 +28,27 @@
                 <h5 class="mb-30">By Categories</h5>
                 <div class="categories-dropdown-wrap font-heading">
                   <ul>
-                    
                     {% for category in categories %}
                     <li class="d-flex justify-content-between">
-                      <a href="{% url 'product_per_category' category.title category.cid %}">
+                      <a
+                        href="{% url 'product_per_category' category.title category.cid %}"
+                      >
                         <img
-                        class="img-fluid"
+                          class="img-fluid"
                           src="{{category.image.url}}"
                           alt=""
                         />{{category.title|capfirst}}
-                        </a>
+                      </a>
                       <input
-                      class="form-check-input filter-checkbox"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox3"
-                      data-filter="category"
-                      value="{{category.id}}"
+                        class="form-check-input filter-checkbox"
+                        type="checkbox"
+                        name="checkbox"
+                        id="exampleCheckbox3"
+                        data-filter="category"
+                        value="{{category.id}}"
                       />
                     </li>
                     {% endfor %}
-                    
                   </ul>
                 </div>
               </div>
@@ -58,26 +58,22 @@
                 <h5 class="mb-30">By Vendors</h5>
                 <div class="d-flex">
                   <div class="d-flex flex-column mr-80">
-                    
-                    
                     {% for vendor in vendors %}
-                      <div class="d-flex gap-3 mb-10">
-                        <input
-                          class="form-check-input filter-checkbox"
-                          type="checkbox"
-                          name="checkbox"
-                          id="exampleCheckbox1"
-                          data-filter="vendor"
-                          value="{{vendor.id}}"
-                        />
-                        <label class="form-check-label" for="exampleCheckbox1">
-                          <span>{{vendor.title | capfirst}}</span>
-                        </label>
-                      </div>
+                    <div class="d-flex gap-3 mb-10">
+                      <input
+                        class="form-check-input filter-checkbox"
+                        type="checkbox"
+                        name="checkbox"
+                        id="exampleCheckbox1"
+                        data-filter="vendor"
+                        value="{{vendor.id}}"
+                      />
+                      <label class="form-check-label" for="exampleCheckbox1">
+                        <span>{{vendor.title | capfirst}}</span>
+                      </label>
+                    </div>
                     {% endfor %}
-                    
                   </div>
-
                 </div>
               </div>
             </div>
@@ -86,26 +82,22 @@
                 <h5 class="mb-30">By tags</h5>
                 <div class="d-flex">
                   <div class="d-flex flex-column mr-80">
-                    
-                    
                     {% for tag in tags %}
-                      <div class="d-flex gap-3 mb-10">
-                        <input
-                          class="form-check-input filter-checkbox"
-                          type="checkbox"
-                          name="checkbox"
-                          id="exampleCheckboxtag"
-                          data-filter="tags"
-                          value="{{tag.id}}"
-                        />
-                        <label class="form-check-label" for="exampleCheckboxtag">
-                          <span>{{tag | capfirst}}</span>
-                        </label>
-                      </div>
+                    <div class="d-flex gap-3 mb-10">
+                      <input
+                        class="form-check-input filter-checkbox"
+                        type="checkbox"
+                        name="checkbox"
+                        id="exampleCheckboxtag"
+                        data-filter="tags"
+                        value="{{tag.id}}"
+                      />
+                      <label class="form-check-label" for="exampleCheckboxtag">
+                        <span>{{tag | capfirst}}</span>
+                      </label>
+                    </div>
                     {% endfor %}
-                    
                   </div>
-
                 </div>
               </div>
             </div>
@@ -114,6 +106,8 @@
                 <h5 class="mb-10">By Price</h5>
                 <div class="sidebar-widget price_range range">
                   <div class="price-filter mb-20">
+                    <span id="min-price"> {{min_max_price.price__min}} </span>
+                    <span id="max-price"> {{min_max_price.price__max}} </span>
                     <div class="price-filter-inner">
                       <div id="slider-range" class="mb-20"></div>
                       <div class="d-flex justify-content-between">
@@ -134,61 +128,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="custome-checkbox">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox211"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox211"
-                      ><span>$0.00 - $20.00 </span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox22"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox22"
-                      ><span>$20.00 - $40.00 </span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox23"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox23"
-                      ><span>$40.00 - $60.00 </span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox24"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox24"
-                      ><span>$60.00 - $80.00 </span></label
-                    >
-                    <br />
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="checkbox"
-                      id="exampleCheckbox25"
-                      value=""
-                    />
-                    <label class="form-check-label" for="exampleCheckbox25"
-                      ><span>Over $100.00</span></label
-                    >
+                  <div class="d-flex justify-content-center">
+                    <button class="btn btn-primary">Filter</button>
                   </div>
                 </div>
               </div>
@@ -198,9 +139,11 @@
       </div>
       <div class="col-12">
         <div class="shop-product-fillter">
-          <div class="totall-product">
-            <p>
-              We found <strong class="text-brand">{{product_count}}</strong> item{{product_count|pluralize:"s"}} for you!
+          <div class="totall-product" id="totall-product">
+            <p id="counter">
+              We found
+              <strong class="text-brand">{{product_count}}</strong>
+              item{{product_count|pluralize:"s"}} for you!
             </p>
           </div>
           <div class="sort-by-product-area">
@@ -247,6 +190,143 @@
         <div class="row product-grid" id="filtered-product">
 
           {% for prod in products %}
+          
+          <!-- Modal -->
+          <div
+            class="modal fade custom-modal"
+            id="quickViewModal{{ prod.pid }}"
+            tabindex="-1"
+            aria-labelledby="quickViewModalLabel{{ prod.pid }}"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
+                      <div class="detail-gallery">
+                        <span class="zoom-icon">
+                          <i class="fi-rs-search"> </i
+                        ></span>
+
+                        <!-- MAIN SLIDES -->
+                        <div class="product-image-slider">
+                          <figure class="border-radius-10">
+                            <img
+                              src="{{prod.image.url}}"
+                              alt="product image"
+                            />
+                          </figure>
+                          {% for img in prod.p_images.all %}
+                            <figure class="border-radius-10">
+                                <img src="{{img.image.url}}" alt="product image" />
+                            </figure>
+                          {% endfor %}
+                        </div>
+                        <!-- THUMBNAILS -->
+                        <div class="slider-nav-thumbnails">
+                          <div>
+                            <img src={{prod.image.url}} alt="product image" />
+                          </div>
+
+                          {% for img in prod.p_images.all %}
+                          <div>
+                              <img src={{img.image.url}} alt="product image" />
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <!-- End Gallery -->
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                      <div class="detail-info pr-30 pl-30">
+                          
+                        <span class="stock-status out-stock">
+
+                          -{{prod.get_percentage|floatformat:0}}%
+                        </span>
+
+                        <h3 class="title-detail">
+                          <a href="{% url 'product_detail' prod.category prod.pid %}" class="text-heading"
+                            >{{prod.title}}</a
+                          >
+                        </h3>
+
+                        <div class="product-detail-rating">
+                          <div class="product-rate-cover text-end">
+                            <div class="product-rate d-inline-block">
+                              <div
+                                class="product-rating"
+                                style="width: 90%"
+                              ></div>
+                            </div>
+                            <span class="font-small ml-5 text-muted">
+                              (32 reviews)</span
+                            >
+                          </div>
+                        </div>
+                        <div class="clearfix product-price-cover">
+                          <div class="product-price primary-color float-left">
+
+                            <span class="current-price text-brand">${{prod.price}}</span>
+                            <span>
+                              <span class="save-price font-md color3 ml-15"
+                                >{{prod.get_percentage|floatformat:0}}% Off</span
+                              >
+                              <span class="old-price font-md ml-15">${{prod.old_price}}</span>
+                            </span>
+
+                          </div>
+                        </div>
+                        <div class="detail-extralink mb-30">
+                          <div class="detail-qty border radius">
+                            <a href="#" class="qty-down"
+                              ><i class="fi-rs-angle-small-down"></i
+                            ></a>
+                            <span class="qty-val">1</span>
+                            <a href="#" class="qty-up"
+                              ><i class="fi-rs-angle-small-up"></i
+                            ></a>
+                          </div>
+                          <div class="product-extra-link2">
+                            <button
+                              type="submit"
+                              class="button button-add-to-cart"
+                            >
+                              <i class="fi-rs-shopping-cart"></i>Add to cart
+                            </button>
+                          </div>
+                        </div>
+                        <div class="font-xs">
+                          <ul>
+                            <li class="mb-5">
+                              Vendor: <span class="text-brand">{{prod.vendor}}</span>
+                            </li>
+                            
+                            {% if prod.manufactured %}
+                              <li class="mb-5">
+                                MFG:<span class="text-brand">{{prod.manufactured}}</span>
+                              </li>
+                            {% endif %}
+                              
+                          </ul>
+                        </div>
+                      </div>
+                      <!-- Detail Info -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- // Modal -->
           <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
             <div class="product-cart-wrap mb-30">
               <div class="product-img-action-wrap">
@@ -263,35 +343,39 @@
                 <div class="product-action-1">
                   <div class="d-flex">
                     <a
-                    aria-label="Add To Wishlist"
-                    class="action-btn"
-                    href="shop-wishlist.html"
-                    ><i class="fi-rs-heart"></i
-                  ></a>
-                  <a
-                    aria-label="Compare"
-                    class="action-btn"
-                    href="shop-compare.html"
-                    ><i class="fi-rs-shuffle"></i
-                  ></a>
-                  <a
-                    aria-label="Quick view"
-                    class="action-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#quickViewModal"
-                    ><i class="fi-rs-eye"></i
-                  ></a>
+                      aria-label="Add To Wishlist"
+                      class="action-btn"
+                      href="shop-wishlist.html"
+                      ><i class="fi-rs-heart"></i
+                    ></a>
+                    <a
+                      aria-label="Compare"
+                      class="action-btn"
+                      href="shop-compare.html"
+                      ><i class="fi-rs-shuffle"></i
+                    ></a>
+                    <a
+                      aria-label="Quick view"
+                      class="action-btn"
+                      data-bs-toggle="modal"
+                      data-bs-target="#quickViewModal{{ prod.pid }}"
+                      ><i class="fi-rs-eye"></i
+                    ></a>
                   </div>
                 </div>
                 <div
                   class="product-badges product-badges-position product-badges-mrg"
                 >
-                  <span class="hot">-{{prod.get_percentage | floatformat:0}}%</span>
+                  <span class="hot"
+                    >-{{prod.get_percentage | floatformat:0}}%</span
+                  >
                 </div>
               </div>
               <div class="product-content-wrap">
                 <div class="product-category">
-                  <a href="shop-grid-right.html">{{prod.category | capfirst}}</a>
+                  <a href="shop-grid-right.html"
+                    >{{prod.category | capfirst}}</a
+                  >
                 </div>
                 <h2>
                   <a href="{% url 'product_detail' prod.category prod.pid %}"
@@ -306,10 +390,12 @@
                 </div>
                 <div>
                   <span class="font-small text-muted"
-                    >By 
-                    <a href="{% url 'vendor_detail' prod.vendor prod.vendor.vid %}">{{prod.vendor}}</a>
-                  </span
-                  >
+                    >By
+                    <a
+                      href="{% url 'vendor_detail' prod.vendor prod.vendor.vid %}"
+                      >{{prod.vendor}}</a
+                    >
+                  </span>
                 </div>
                 <div class="product-card-bottom">
                   <div class="product-price">
@@ -368,7 +454,10 @@
                 <div class="product-img-action-wrap">
                   <div class="product-img">
                     <a href="shop-product-right.html">
-                      <img src="{% static 'assets/imgs/banner/banner-5.png' %}" alt="" />
+                      <img
+                        src="{% static 'assets/imgs/banner/banner-5.png' %}"
+                        alt=""
+                      />
                     </a>
                   </div>
                 </div>
@@ -416,7 +505,10 @@
                 <div class="product-img-action-wrap">
                   <div class="product-img">
                     <a href="shop-product-right.html">
-                      <img src="{% static 'assets/imgs/banner/banner-6.png' %}" alt="" />
+                      <img
+                        src="{% static 'assets/imgs/banner/banner-6.png' %}"
+                        alt=""
+                      />
                     </a>
                   </div>
                 </div>
@@ -465,7 +557,10 @@
                 <div class="product-img-action-wrap">
                   <div class="product-img">
                     <a href="shop-product-right.html">
-                      <img src="{% static 'assets/imgs/banner/banner-7.png' %}" alt="" />
+                      <img
+                        src="{% static 'assets/imgs/banner/banner-7.png' %}"
+                        alt=""
+                      />
                     </a>
                   </div>
                 </div>
@@ -513,7 +608,10 @@
                 <div class="product-img-action-wrap">
                   <div class="product-img">
                     <a href="shop-product-right.html">
-                      <img src="{% static 'assets/imgs/banner/banner-8.png' %}" alt="" />
+                      <img
+                        src="{% static 'assets/imgs/banner/banner-8.png' %}"
+                        alt=""
+                      />
                     </a>
                   </div>
                 </div>

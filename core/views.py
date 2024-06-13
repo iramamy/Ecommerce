@@ -41,10 +41,18 @@ def product_list(request):
     Returns:
         HttpResponse: The rendered HTML response containing the list of published products.
     """
+    
     products = Product.objects.filter(
         product_status='published'
     )
     product_count = products.count()
+    product = Product.objects.first()
+
+    # Get all related images
+    related_images = product.p_images.all()
+
+    for img in related_images:
+        print(img.image.url)
 
     context = {
         'products': products,
@@ -136,10 +144,6 @@ def product_detail(request, category_name, pid):
         ).exclude(pid=pid)
 
     p_images = product.p_images.all()
-
-    for p in products:
-        print('related_product:', p.title)
-        print('related_product:', p.category)
     
     context = {
         "product": product,
@@ -193,20 +197,24 @@ def filter_product(request):
     categories_id = request.GET.getlist('category[]')
     vendors_id = request.GET.getlist('vendor[]')
     tags_id = request.GET.getlist('tags[]')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
 
     products = Product.objects.filter(
         product_status='published'
     ).order_by('-id').distinct()
 
-    if len(categories)>0:
+    if len(categories_id)>0:
         products = products.filter(category__id__in=categories_id).distinct()
 
-    if len(vendors)>0:
+    if len(vendors_id)>0:
         products = products.filter(vendor__id__in=vendors_id).distinct()
 
-    if len(tags)>0:
+    if len(tags_id)>0:
         products = products.filter(tags__id__in=tags_id).distinct()
 
+    if len([min_price, max_price])>0:
+        products = products.filter(price__range=[min_price, max_price]).distinct()
 
     context = {
         'products': products,
@@ -214,7 +222,9 @@ def filter_product(request):
     }
 
     data = render_to_string('core/async/product_list.html', context)
+    count = render_to_string('core/async/product_count.html', context)
 
     return JsonResponse({
-        "data": data
+        "data": data,
+        "product_count": count,
     })
