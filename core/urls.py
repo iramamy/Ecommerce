@@ -30,5 +30,8 @@ urlpatterns = [
 
     # Filter
     path('filter-product/', views.filter_product, name='filter_product'),
+    
+    # Add review
+    path('add-review/<str:pid>', views.add_review, name='add_review'),
 
 ]

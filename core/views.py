@@ -1,11 +1,14 @@
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Avg
 from taggit.models import Tag
 from django.template.loader import render_to_string
 from django.http import JsonResponse
-from .models import Product, Category, Vendor
 
-# Create your views here.
+from django.utils import timezone
+
+from .models import Product, Category, Vendor, ProductReview
+from .forms import ReviewForm
+
 
 
 def index(request):
@@ -143,12 +146,44 @@ def product_detail(request, category_name, pid):
         category=product.category
         ).exclude(pid=pid)
 
+    if request.user.is_authenticated:
+        is_review_exist = ProductReview.objects.filter(
+            user=request.user, product=product
+        ).exists()
+    else:
+        is_review_exist = False
+
+    # Get review
+    p_reviews = ProductReview.objects.filter(product=product).order_by('-date')
+
+    # Average review
+    avg_rating = ProductReview.objects.filter(
+        product=product).aggregate(rating=Avg('rating'))
+
+    # Rating counts
+    rating_counts = ProductReview.objects.filter(
+        product=product).values('rating').annotate(count=Count('rating'))
+
+    rating_track = {1:0, 2:0, 3:0, 4:0, 5:0}
+
+    for rating in rating_counts:
+        rating_track[rating['rating']] = rating['count']
+
     p_images = product.p_images.all()
+
+    # Review comment form
+    review_form = ReviewForm()
+
     
     context = {
         "product": product,
         "p_images": p_images,
         "products": products,
+        "reviews": p_reviews,
+        'avg_rating': avg_rating,
+        'rating_track': rating_track,
+        "review_form": review_form,
+        "is_review_exist": is_review_exist
     }
     
     return render(request, 'core/product_detail.html', context)
@@ -227,4 +262,37 @@ def filter_product(request):
     return JsonResponse({
         "data": data,
         "product_count": count,
+    })
+
+
+# Review comment
+def add_review(request, pid):
+    product = Product.objects.get(pid=pid)
+    user = request.user
+
+    review=request.POST['review']
+    rating=request.POST['rating']
+    current_time = timezone.now()
+
+    new_review = ProductReview.objects.create(
+        user=user,
+        product=product,
+        review=review,
+        rating=rating,
+    )    
+
+    context = {
+        'user': user.username,
+        'review': review,
+        'rating': rating,
+        'date': new_review.date.strftime('%d %b, %Y %H:%M'),
+    }
+
+    avg_rating = ProductReview.objects.filter(
+        product=product).aggregate(rating=Avg('rating'))
+
+    return JsonResponse({
+        'bool': True,
+        'context': context,
+        'avg_rating': avg_rating
     })

@@ -205,7 +205,7 @@
                         id="Reviews-tab"
                         data-bs-toggle="tab"
                         href="#Reviews"
-                        >Reviews (3)</a
+                        >Reviews ({{reviews.count}})</a
                       >
                     </li>
                   </ul>
@@ -464,138 +464,49 @@
                           <div class="col-lg-8">
                             <h4 class="mb-30">Customer questions & answers</h4>
                             <div class="comment-list">
+                              
+                              {% for review in reviews %}
                               <div
-                                class="single-comment justify-content-between d-flex mb-30"
+                              class="single-comment justify-content-between d-flex mb-30"
+                            >
+                              <div
+                                class="user d-flex justify-content-between"
                               >
-                                <div
-                                  class="user justify-content-between d-flex"
-                                >
-                                  <div class="thumb text-center">
-                                    <img
-                                      src="{% static 'assets/imgs/blog/author-2.png' %}"
-                                      alt=""
-                                    />
-                                    <a href="#" class="font-heading text-brand"
-                                      >Sienna</a
-                                    >
-                                  </div>
-                                  <div class="desc">
-                                    <div
-                                      class="d-flex justify-content-between mb-10"
-                                    >
-                                      <div class="d-flex align-items-center">
-                                        <span class="font-xs text-muted"
-                                          >December 4, 2022 at 3:12 pm
-                                        </span>
-                                      </div>
-                                      <div class="product-rate d-inline-block">
-                                        <div
-                                          class="product-rating"
-                                          style="width: 100%"
-                                        ></div>
-                                      </div>
+                                <div class="thumb text-center">
+                                  <img
+                                    src="https://www.w3schools.com/howto/img_avatar2.png"
+                                    alt=""
+                                  />
+                                  <a href="#" class="font-heading text-brand"
+                                    >{{review.user.username|capfirst}}</a
+                                  >
+                                </div>
+                                <div class="desc w-100">
+                                  <div
+                                    class="d-flex justify-content-between mb-10"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <span class="font-xs text-muted"
+                                        >{{review.date|date:"d M, Y H:i"}}
+                                      </span>
                                     </div>
-                                    <p class="mb-10">
-                                      Lorem ipsum dolor sit amet, consectetur
-                                      adipisicing elit. Delectus, suscipit
-                                      exercitationem accusantium obcaecati quos
-                                      voluptate nesciunt facilis itaque modi
-                                      commodi dignissimos sequi repudiandae
-                                      minus ab deleniti totam officia id
-                                      incidunt?
-                                      <a href="#" class="reply">Reply</a>
-                                    </p>
+                                    <div >
+                                      
+                                      {% for star in review.rating|ljust:review.rating %}
+                                        <i class="fas fa-star text-warning"></i>
+                                      {% endfor %}
+                                        
+                                    </div>
                                   </div>
+                                  <p class="mb-10">
+                                    {{review.review}}
+                                    <!-- <a href="#" class="reply">Reply</a> -->
+                                  </p>
                                 </div>
                               </div>
-                              <div
-                                class="single-comment justify-content-between d-flex mb-30 ml-30"
-                              >
-                                <div
-                                  class="user justify-content-between d-flex"
-                                >
-                                  <div class="thumb text-center">
-                                    <img
-                                      src="{% static 'assets/imgs/blog/author-3.png' %}"
-                                      alt=""
-                                    />
-                                    <a href="#" class="font-heading text-brand"
-                                      >Brenna</a
-                                    >
-                                  </div>
-                                  <div class="desc">
-                                    <div
-                                      class="d-flex justify-content-between mb-10"
-                                    >
-                                      <div class="d-flex align-items-center">
-                                        <span class="font-xs text-muted"
-                                          >December 4, 2022 at 3:12 pm
-                                        </span>
-                                      </div>
-                                      <div class="product-rate d-inline-block">
-                                        <div
-                                          class="product-rating"
-                                          style="width: 80%"
-                                        ></div>
-                                      </div>
-                                    </div>
-                                    <p class="mb-10">
-                                      Lorem ipsum dolor sit amet, consectetur
-                                      adipisicing elit. Delectus, suscipit
-                                      exercitationem accusantium obcaecati quos
-                                      voluptate nesciunt facilis itaque modi
-                                      commodi dignissimos sequi repudiandae
-                                      minus ab deleniti totam officia id
-                                      incidunt?
-                                      <a href="#" class="reply">Reply</a>
-                                    </p>
-                                  </div>
-                                </div>
                               </div>
-                              <div
-                                class="single-comment justify-content-between d-flex"
-                              >
-                                <div
-                                  class="user justify-content-between d-flex"
-                                >
-                                  <div class="thumb text-center">
-                                    <img
-                                      src="{% static 'assets/imgs/blog/author-4.png' %}"
-                                      alt=""
-                                    />
-                                    <a href="#" class="font-heading text-brand"
-                                      >Gemma</a
-                                    >
-                                  </div>
-                                  <div class="desc">
-                                    <div
-                                      class="d-flex justify-content-between mb-10"
-                                    >
-                                      <div class="d-flex align-items-center">
-                                        <span class="font-xs text-muted"
-                                          >December 4, 2022 at 3:12 pm
-                                        </span>
-                                      </div>
-                                      <div class="product-rate d-inline-block">
-                                        <div
-                                          class="product-rating"
-                                          style="width: 80%"
-                                        ></div>
-                                      </div>
-                                    </div>
-                                    <p class="mb-10">
-                                      Lorem ipsum dolor sit amet, consectetur
-                                      adipisicing elit. Delectus, suscipit
-                                      exercitationem accusantium obcaecati quos
-                                      voluptate nesciunt facilis itaque modi
-                                      commodi dignissimos sequi repudiandae
-                                      minus ab deleniti totam officia id
-                                      incidunt?
-                                      <a href="#" class="reply">Reply</a>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
+                              {% endfor %}
+                                
                             </div>
                           </div>
                           <div class="col-lg-4">
@@ -607,19 +518,19 @@
                                   style="width: 90%"
                                 ></div>
                               </div>
-                              <h6>4.8 out of 5</h6>
+                              <h6>{{avg_rating.rating|floatformat:1}} out of 5</h6>
                             </div>
                             <div class="progress">
                               <span>5 star</span>
                               <div
                                 class="progress-bar"
                                 role="progressbar"
-                                style="width: 50%"
-                                aria-valuenow="50"
+                                style='width: {{ rating_track.5|floatformat:2 }}%'
+                                aria-valuenow="{{ rating_data.5 }}"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                               >
-                                50%
+                                {{rating_track.5}}%
                               </div>
                             </div>
                             <div class="progress">
@@ -627,12 +538,12 @@
                               <div
                                 class="progress-bar"
                                 role="progressbar"
-                                style="width: 25%"
-                                aria-valuenow="25"
+                                style="width: {{ rating_track.4|floatformat:2 }}%"
+                                aria-valuenow="{{ rating_data.4 }}"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                               >
-                                25%
+                                {{ rating_data.4 }}%
                               </div>
                             </div>
                             <div class="progress">
@@ -640,12 +551,12 @@
                               <div
                                 class="progress-bar"
                                 role="progressbar"
-                                style="width: 45%"
-                                aria-valuenow="45"
+                                style="width: {{ rating_track.3|floatformat:2 }}%"
+                                aria-valuenow="{{ rating_data.3 }}"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                               >
-                                45%
+                                {{ rating_data.3 }}%
                               </div>
                             </div>
                             <div class="progress">
@@ -653,12 +564,12 @@
                               <div
                                 class="progress-bar"
                                 role="progressbar"
-                                style="width: 65%"
-                                aria-valuenow="65"
+                                style="width: {{ rating_track.2|floatformat:2 }}%"
+                                aria-valuenow="{{ rating_data.2 }}"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                               >
-                                65%
+                                {{ rating_data.2 }}%
                               </div>
                             </div>
                             <div class="progress mb-30">
@@ -666,12 +577,12 @@
                               <div
                                 class="progress-bar"
                                 role="progressbar"
-                                style="width: 85%"
-                                aria-valuenow="85"
+                                style="width: {{ rating_track.1|floatformat:2 }}%"
+                                aria-valuenow="{{ rating_data.1 }}"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                               >
-                                85%
+                                {{ rating_data.1 }}%
                               </div>
                             </div>
                             <a href="#" class="font-xs text-muted"
@@ -682,75 +593,58 @@
                       </div>
 
                       <!--comment form-->
-                      <div class="comment-form">
-                        <h4 class="mb-15">Add a review</h4>
-                        <div class="product-rate d-inline-block mb-30"></div>
-                        <div class="row">
-                          <div class="col-lg-8 col-md-12">
-                            <form
-                              class="form-contact comment_form"
-                              action="#"
-                              id="commentForm"
-                            >
-                              <div class="row">
-                                <div class="col-12">
-                                  <div class="form-group">
-                                    <textarea
-                                      class="form-control w-100"
-                                      name="comment"
-                                      id="comment"
-                                      cols="30"
-                                      rows="9"
-                                      placeholder="Write Comment"
-                                    ></textarea>
-                                  </div>
-                                </div>
-                                <div class="col-sm-6">
-                                  <div class="form-group">
-                                    <input
-                                      class="form-control"
-                                      name="name"
-                                      id="name"
-                                      type="text"
-                                      placeholder="Name"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="col-sm-6">
-                                  <div class="form-group">
-                                    <input
-                                      class="form-control"
-                                      name="email"
-                                      id="email"
-                                      type="email"
-                                      placeholder="Email"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="col-12">
-                                  <div class="form-group">
-                                    <input
-                                      class="form-control"
-                                      name="website"
-                                      id="website"
-                                      type="text"
-                                      placeholder="Website"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <button
-                                  type="submit"
-                                  class="button button-contactForm"
+                      
+                      {% if not is_review_exist %}
+                        {% if request.user.is_authenticated %}
+                          <div class="comment-form">
+                            <h4 class="mb-15 add-review-text">Add a review</h4>
+                            <div class="mb-30" id="review-response-div">
+                              <strong id="review-response"></strong>
+                            </div>
+                            
+                            <div class="row">
+                              <div class="col-lg-8 col-md-12">
+                                <form
+                                  class="form-contact comment_form review-form"
+                                  action="{% url 'add_review' pid=product.pid %}"
+                                  id="commentForm"
+                                  method="POST"
                                 >
-                                  Submit Review
-                                </button>
+                                  {% csrf_token %}
+                                  <div class="row">
+                                    <div class="col-12">
+                                      <div class="form-group">
+                                        {{review_form.review}}
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="form-group">
+                                        {{review_form.rating}}
+                                      </div>
+                                    </div>
+                                  </div>
+                                    <div class="form-group">
+                                      <button
+                                        type="submit"
+                                        class="button button-contactForm"
+                                      >
+                                        Submit Review
+                                      </button>
+                                    </div>                                
+                                </form>
                               </div>
-                            </form>
+                            </div>
                           </div>
-                        </div>
-                      </div>
+                        {% else %}
+                          <div>
+                            <span class="fw-bold">
+                              You need to <a href=" {% url 'signin' %}">sign in</a> to make a review
+                            </span>
+                          </div>
+                        {% endif %}
+                      {% endif %}
+                        
+                      
                     </div>
                   </div>
                 </div>

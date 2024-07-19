@@ -189,6 +189,10 @@ img {
     max-width: 100%;
 }
 
+textarea {
+    resize: none;
+}
+
 *:focus,
 select:focus,
 .custom-select:focus,
