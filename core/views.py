@@ -296,3 +296,5 @@ def add_review(request, pid):
         'context': context,
         'avg_rating': avg_rating
     })
+
+

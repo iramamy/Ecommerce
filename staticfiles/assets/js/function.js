@@ -45,3 +45,37 @@ $('#commentForm').submit(function(e){
         }
     })
 })
+
+// Add to cart
+$("#add-to-cart-btn").on('click', function(){
+    let quantity = $('#product-quantity').val();
+    let product_title = $(".product-title").val();
+    let product_id = $(".product-id").val();
+    let product_price = $(".current-price").text().replace('$', '');;
+    let this_val = $(this);
+
+    console.log("Quantity:", quantity);
+    console.log("Product Title:", product_title);
+    console.log("Product ID:", product_id);
+    console.log("Product Price:", product_price);
+    console.log("this_val :", this_val);
+
+    $.ajax({
+        url: '/cart/add-to-cart/',
+        data: {
+            'product_id': product_id,
+            'quantity': quantity,
+            'product_title': product_title,
+            'product_price': product_price
+        },
+        dataType: 'json',
+        beforeSend: function(){
+            console.log('Product sent to cart')
+        },
+        success: function(response){
+            this_val.html('Added to cart!');
+            console.log('Success');
+            $(".cart-item-count").text(response.total_items);
+        },
+    })
+})
