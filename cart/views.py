@@ -1,10 +1,12 @@
 from django.http import JsonResponse
 
 def add_to_cart(request):
+    
     product_id = request.GET.get('product_id')
     product_title = request.GET.get('product_title')
     quantity = int(request.GET.get('quantity'))
     product_price = request.GET.get('product_price')
+    image = request.GET.get('image')
     
     cart_product = {
         'product_title': product_title,

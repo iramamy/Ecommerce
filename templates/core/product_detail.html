@@ -74,7 +74,7 @@
                     </div>
                     <div class="clearfix product-price-cover">
                       <div class="product-price primary-color float-left">
-                        <span class="current-price text-brand"
+                        <span class="current-price-{{ product.pid }} text-brand display-2"
                           >${{product.price}}</span
                         >
                         <span>
@@ -88,18 +88,24 @@
                       </div>
                     </div>
                     <div class="short-desc mb-30">
-                      <p class="font-lg">{{product.description}}</p>
+                      <span class="font-lg">{{ product.description|safe}}</span>
                     </div>
 
                     <div class="detail-extralink mb-50">
                       <div class="product-extra-link2 d-flex row g-1 align-items-center">
                         <div class="col-lg-3">
-                          <input type="number" name="" id="product-quantity" value="1" class=""  min="1">
+                          <input type="number" name="" id="" value="1" class="product-quantity-{{product.pid}}"  min="1">
                         </div>
                         <div class="col-lg-9 d-flex">
-                          <input type="hidden" value="{{product.pid}}" name="" id="" class="product-id">
-                          <input type="hidden" value="{{product.title}}" name="" id="" class="product-title">
-                          <button type="submit" class="button button-add-to-cart" id="add-to-cart-btn">
+                          <input type="hidden" value="{{product.pid}}" name="" id="" class="product-id-{{product.pid}}">
+                          <input type="hidden" value="{{product.image.url}}" name="" id="" class="product-image-{{product.pid}}">
+                          <input type="hidden" value="{{product.title}}" name="" id="" class="product-title-{{product.pid}}">
+                          <button
+                            type="submit"
+                            class="button button-add-to-cart add-to-cart-btn"
+                            id="add-to-cart-btn"
+                            data-index="{{ product.pid }}"
+                            >
                             <i class="fi-rs-shopping-cart"></i>Add to cart
                           </button>
                           <a

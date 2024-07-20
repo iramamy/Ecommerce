@@ -4431,6 +4431,10 @@ table .product-thumbnail img {
     cursor: pointer;
 }
 
+.add {
+    color: #3BB77E;
+}
+
 .product-cart-wrap .product-card-bottom .add-cart .add {
     position: relative;
     display: inline-block;
