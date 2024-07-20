@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==5.0.7
+django-ckeditor-5==0.2.13
+django-jazzmin==3.0.0
+django-taggit==5.0.1
+pillow==10.4.0
+shortuuid==1.0.13
+sqlparse==0.5.1

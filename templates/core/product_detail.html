@@ -94,12 +94,13 @@
                     <div class="detail-extralink mb-50">
                       <div class="product-extra-link2 d-flex row g-1 align-items-center">
                         <div class="col-lg-3">
-                          <input type="number" name="" id="" value="1" class="product-quantity-{{product.pid}}"  min="1">
+                          <input type="number" name="" id="" value="" class="product-quantity-{{product.pid}}"  min="1">
                         </div>
                         <div class="col-lg-9 d-flex">
                           <input type="hidden" value="{{product.pid}}" name="" id="" class="product-id-{{product.pid}}">
                           <input type="hidden" value="{{product.image.url}}" name="" id="" class="product-image-{{product.pid}}">
                           <input type="hidden" value="{{product.title}}" name="" id="" class="product-title-{{product.pid}}">
+                          <input type="hidden" value="{{product.category}}" name="" id="" class="product-category-{{product.pid}}">
                           <button
                             type="submit"
                             class="button button-add-to-cart add-to-cart-btn"

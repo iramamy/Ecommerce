@@ -279,7 +279,7 @@ def add_review(request, pid):
         product=product,
         review=review,
         rating=rating,
-    )    
+    )
 
     context = {
         'user': user.username,
