@@ -47,7 +47,6 @@ $('#commentForm').submit(function(e){
 })
 
 // Add to cart
-
 $(".add-to-cart-btn").on('click', function(){
 
     let this_val = $(this);
@@ -83,4 +82,38 @@ $(".add-to-cart-btn").on('click', function(){
         },
     })
 
+});
+
+
+$(document).on('click', '.delete-product', function() {
+    let product_id = $(this).attr("data-product");
+    let this_val = $(this);
+
+    console.log("Product id", product_id);
+
+    $.ajax({
+        url: '/cart/delete-from-cart',
+        data: {
+            'product_id': product_id
+        },
+        dataType: 'json',
+        beforeSend: function() {
+            this_val.hide();
+        },
+        success: function(response) {
+            this_val.show();
+            console.log("COOL");
+            console.log(response.data);
+
+            // Update the cart item count
+            $(".cart-item-count").text(response.total_items);
+            
+            // Update the cart list HTML
+            $("#cart-list").html(response.data);
+        },
+        error: function() {
+            this_val.show();
+            alert("An error occurred. Please try again.");
+        }
+    });
 });

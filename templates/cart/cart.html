@@ -1,6 +1,8 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 
-<main class="main">
+<main class="main" id="cart-list">
   <div class="page-header breadcrumb-wrap">
     <div class="container">
       <div class="breadcrumb">
@@ -12,7 +14,7 @@
     </div>
   </div>
   
-  {% if is_empty %}
+  {% if total_item != 0 %}
   <div class="container mb-80 mt-50">
     <div class="row">
       <div class="col-lg-8 mb-40">
@@ -27,8 +29,8 @@
             {% endif %}
               
             <span class="text-brand">
-              {{total_item}}
-            </span> product{{total_item|pluralize:"s"}}s in your cart
+              {{ total_item }}
+            </span> product{{total_item|pluralize}} in your cart
           </h6>
           <h6 class="text-body">
             <a href="#" class="text-muted"
@@ -121,7 +123,14 @@
                   <a href="#" class="text-body"><i class="fi-rs-refresh"></i></a>
                 </td>
                 <td class="action text-center" data-title="Remove">
-                  <a href="#" class="text-body"><i class="fi-rs-trash"></i></a>
+                  <button
+                    style="border: none; background: none;"
+                    href="#"
+                    class="text-body delete-product"
+                    data-product="{{product_id}}"
+                    >
+                    <i class="fi-rs-trash"></i>
+                  </button>
                 </td>
               </tr>
             {% endfor %}

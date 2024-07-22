@@ -1,7 +1,6 @@
 def cart_view(request):
 
     cart_total_amount = 0
-    is_empty = True
     fee = 1.5
 
     if 'cart_data_obj' in request.session:
@@ -23,16 +22,12 @@ def cart_view(request):
             'cart_data': cart_data_obj,
             'cart_grand_total': cart_grand_total,
             'total_item': len(cart_data_obj),
-            'is_empty': is_empty,
-            
         }
 
         return context
 
-    else:
-        is_empty = False            
+    else:          
         context = {
-            'is_empty': is_empty,
             'total_item': 0,
         }
 
