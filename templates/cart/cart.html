@@ -76,12 +76,12 @@
                     class="form-check-input"
                     type="checkbox"
                     name="checkbox"
-                    id="exampleCheckbox1"
+                    id="{{product_id}}"
                     value=""
                   />
                   <label
                     class="form-check-label"
-                    for="exampleCheckbox1"
+                    for="{{product_id}}"
                   ></label>
                 </td>
                 <td class="image product-thumbnail pt-40">
@@ -147,6 +147,7 @@
             ><i class="fi-rs-arrow-left mr-10"></i>Continue Shopping</a
           >
           <a class="btn mr-10 mb-sm-15"
+            href="{% url 'cart' %}"
             ><i class="fi-rs-refresh mr-10"></i>Update Cart</a
           >
         </div>
@@ -509,7 +510,7 @@
                     <h6 class="text-muted">Total</h6>
                   </td>
                   <td class="cart_total_amount">
-                    <h4 class="text-brand text-end">${{cart_grand_total}}</h4>
+                    <h4 class="text-brand text-end">${{cart_total_amount}}</h4>
                   </td>
                 </tr>
               </tbody>

@@ -93,16 +93,27 @@ def update_cart(request):
         for p_id, item in cart_data.items():
             item = cart_data[product_id]
             item['quantity'] = quantity
+            print('item', item)
+
             request.session['cart_data_obj'] = cart_data
+            request.session.modified = True
 
             subtotal = round(int(item['quantity']) * float(item['product_price']), 2)
             item['subtotal'] = subtotal
+            # print('subtotal', subtotal)
+            # cart_total_amount += subtotal
+    if 'cart_data_obj' in request.session:
+        for p_id, item in cart_data.items():
+            subtotal = round(int(item['quantity']) * float(item['product_price']), 2)
+            item['subtotal'] = subtotal
             cart_total_amount += subtotal
-        
+
         cart_grand_total = round((cart_total_amount + (cart_total_amount * fee)/100), 2)
         request.session['cart_data_obj'] = cart_data
 
-        print('cart data', cart_data)
+        # print('cart data', cart_data)
+        
+        # print('cart_grand_total', cart_grand_total)
         context = {
                 'cart_total_amount': round(cart_total_amount, 2),
                 'cart_data': cart_data,

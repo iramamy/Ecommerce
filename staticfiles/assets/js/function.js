@@ -88,7 +88,7 @@ $(document).on('click', '.delete-product', function() {
     console.log("Product id", product_id);
 
     $.ajax({
-        url: '/cart/delete-from-cart',
+        url: '/cart/delete-from-cart/',
         data: {
             'product_id': product_id
         },
@@ -108,39 +108,135 @@ $(document).on('click', '.delete-product', function() {
     });
 });
 
-
-document.getElementById('cart-table').addEventListener('input', function(event) {
-    if (event.target.classList.contains('update-product')) {
+// $(document).on('input', '.cart-table' )
+// document.getElementById('cart-table').addEventListener('input', function(event) {
+//     if (event.target.classList.contains('update-product')) {
       
-      const quantity = event.target.value;
-      const product_id = event.target.getAttribute('data-product-update');
-      const subtotalElement = document.getElementById(`subtotal-${product_id}`);
+//       const quantity = event.target.value;
+//       const product_id = event.target.getAttribute('data-product-update');
+//       const subtotalElement = document.getElementById(`subtotal-${product_id}`);
 
-      if (quantity === '' || quantity === 0) {
+//       if (quantity === '' || quantity === 0) {
         
-        console.log('Quantity is empty. Skipping.');
-        ; // Skip further processing
-      } else {
-        $.ajax({
-            url :'/cart/update-cart/',
-            type: 'GET',
-            data: {
-                'product_id': product_id,
-                'quantity': quantity
-            },
-            dataType: 'json',
-            beforeSend: function() {
-                console.log('COOL');
-            },
-            success: function(response){
-                $("#table-cart-amount").html(response.data);
+//         console.log('Quantity is empty. Skipping.');
+//         ; // Skip further processing
+//       } else {
+//         $.ajax({
+//             url :'/cart/update-cart/',
+//             type: 'GET',
+//             data: {
+//                 'product_id': product_id,
+//                 'quantity': quantity
+//             },
+//             dataType: 'json',
+//             beforeSend: function() {
+//                 console.log('COOL');
+//             },
+//             success: function(response){
+//                 $("#table-cart-amount").html(response.data);
                 
-                if (subtotalElement) {
-                    subtotalElement.textContent = `$${response.item.subtotal}`;
-                }
+//                 if (subtotalElement) {
+//                     subtotalElement.textContent = `$${response.item.subtotal}`;
+//                 }
 
-            }
-        })
-      }
+//             }
+//         })
+//       }
+//     }
+//   });
+$(document).on('input', '.update-product', function() {
+    const quantity = $(this).val();
+    const product_id = $(this).attr('data-product-update');
+    const subtotalElement = $(`#subtotal-${product_id}`);
+
+    if (quantity === '' || quantity === '0') {
+        return;
     }
-  });
+    console.log('quantity', quantity);
+    
+    $.ajax({
+        url: '/cart/update-cart/',
+        data: {
+            'product_id': product_id,
+            'quantity': quantity
+        },
+        dataType: 'json',
+        success: function(response) {
+            $("#table-cart-amount").html(response.data);
+
+            if (subtotalElement.length) {
+                subtotalElement.text(`$${response.item.subtotal}`);
+            }
+        }
+    });
+});
+
+
+// $(document).ready(function(){
+//     function attach(){
+//         $(document).on('click', '.delete-product', function() {
+//             let product_id = $(this).attr("data-product");
+//             let this_val = $(this);
+        
+//             console.log("Product id", product_id);
+        
+//             $.ajax({
+//                 url: '/cart/delete-from-cart/',
+//                 data: {
+//                     'product_id': product_id
+//                 },
+//                 dataType: 'json',
+//                 beforeSend: function() {
+//                     this_val.hide();
+//                 },
+//                 success: function(response) {
+//                     this_val.show();
+        
+//                     // Update the cart item count
+//                     $(".cart-item-count").text(response.total_items);
+                    
+//                     // Update the cart list HTML
+//                     $("#cart-list").html(response.data);
+//                     attach();
+//                 }
+//             });
+//         });
+
+//         document.getElementById('cart-table').addEventListener('input', function(event) {
+//             if (event.target.classList.contains('update-product')) {
+                
+//                 const quantity = event.target.value;
+//                 const product_id = event.target.getAttribute('data-product-update');
+//                 const subtotalElement = document.getElementById(`subtotal-${product_id}`);
+        
+//                 if (quantity === '' || quantity === 0) {
+                
+//                 console.log('Quantity is empty. Skipping.');
+//                 ; // Skip further processing
+//                 } else {
+//                 $.ajax({
+//                     url :'/cart/update-cart/',
+//                     type: 'GET',
+//                     data: {
+//                         'product_id': product_id,
+//                         'quantity': quantity
+//                     },
+//                     dataType: 'json',
+//                     beforeSend: function() {
+//                         console.log('COOL');
+//                     },
+//                     success: function(response){
+//                         $("#table-cart-amount").html(response.data);
+                        
+//                         if (subtotalElement) {
+//                             subtotalElement.textContent = `$${response.item.subtotal}`;
+//                         }
+//                         attach();
+//                     }
+//                 })
+//                 }
+//             }
+//             });
+//     }
+// attach();
+// });
