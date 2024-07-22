@@ -5,6 +5,7 @@ $(document).on('click', '.add-to-wishlist-btn', function(){
     let this_val = $(this);
 
     let _index = this_val.attr("data-index");
+    let quantity = $('.product-quantity-' + _index).val();
     let product_title = $(".product-title-" + _index).val();
     let category = $(".product-category-" + _index).val();
     let product_id = $(".product-id-" + _index).val();
@@ -19,6 +20,7 @@ $(document).on('click', '.add-to-wishlist-btn', function(){
         url: '/wishlist/add-to-wishlist/',
         data: {
             'product_id': product_id,
+            'quantity': quantity,
             'product_title': product_title,
             'product_price': product_price,
             'image': product_image,
@@ -37,4 +39,33 @@ $(document).on('click', '.add-to-wishlist-btn', function(){
 
         },
     })
+});
+
+// Remove from cart
+
+$(document).on('click', '.delete-product-wishlist', function() {
+    let product_id = $(this).attr("data-product");
+    let this_val = $(this);
+
+    $.ajax({
+        url: '/wishlist/delete-from-wishlist/',
+        data: {
+            'product_id': product_id
+        },
+        dataType: 'json',
+        beforeSend: function() {
+            this_val.hide();
+        },
+        success: function(response) {
+            this_val.show();
+
+            // Update the cart item count
+            $(".wishlist-item-count").text(response.total_items);
+            
+            // Update the cart list HTML
+            $("#wish-list").html(response.data);
+
+            console.log("SUCCESS");
+        }
+    });
 });
