@@ -1,3 +1,4 @@
+
 // Add review comment
 $('#commentForm').submit(function(e){
     e.preventDefault();
@@ -45,9 +46,9 @@ $('#commentForm').submit(function(e){
 })
 
 // Add to cart
-$(".add-to-cart-btn").on('click', function(){
-
+$(document).on('click', '.add-to-cart-btn', function() {
     let this_val = $(this);
+
     let _index = this_val.attr("data-index");
 
     let quantity = $('.product-quantity-' + _index).val();
@@ -68,19 +69,16 @@ $(".add-to-cart-btn").on('click', function(){
             'category': category
         },
         dataType: 'json',
-
-        beforeSend: function(){
-            console.log('Product sent to cart')
+        beforeSend: function() {
+            console.log('Product sent to cart');
         },
-
-        success: function(response){
+        success: function(response) {
             this_val.html('<i class="fa-solid fa-check"></i>');
             $(".cart-item-count").text(response.total_items);
-
         },
-    })
-
+    });
 });
+
 
 // Remove from cart
 $(document).on('click', '.delete-product', function() {
@@ -106,10 +104,43 @@ $(document).on('click', '.delete-product', function() {
             
             // Update the cart list HTML
             $("#cart-list").html(response.data);
-        },
-        error: function() {
-            this_val.show();
-            alert("An error occurred. Please try again.");
         }
     });
 });
+
+
+document.getElementById('cart-table').addEventListener('input', function(event) {
+    if (event.target.classList.contains('update-product')) {
+      
+      const quantity = event.target.value;
+      const product_id = event.target.getAttribute('data-product-update');
+      const subtotalElement = document.getElementById(`subtotal-${product_id}`);
+
+      if (quantity === '' || quantity === 0) {
+        
+        console.log('Quantity is empty. Skipping.');
+        ; // Skip further processing
+      } else {
+        $.ajax({
+            url :'/cart/update-cart/',
+            type: 'GET',
+            data: {
+                'product_id': product_id,
+                'quantity': quantity
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                console.log('COOL');
+            },
+            success: function(response){
+                $("#table-cart-amount").html(response.data);
+                
+                if (subtotalElement) {
+                    subtotalElement.textContent = `$${response.item.subtotal}`;
+                }
+
+            }
+        })
+      }
+    }
+  });

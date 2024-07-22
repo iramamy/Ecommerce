@@ -10,4 +10,7 @@ urlpatterns = [
     # Delete from cart
     path("delete-from-cart/", views.delete_from_cart, name='delete_from_cart'),
 
+    # Update cart
+    path("update-cart/", views.update_cart, name='update_cart'),
+
 ]

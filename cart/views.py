@@ -69,8 +69,8 @@ def delete_from_cart(request):
                 'cart_grand_total': cart_grand_total,
                 'total_item': len(cart_data),
             }
-    else:
-        is_not_empty = False            
+        
+    else:      
         context = {
             'total_item': 0,
         }
@@ -81,4 +81,39 @@ def delete_from_cart(request):
         'data': data,
         'total_items': len(cart_data),
     })
-    
+
+def update_cart(request):
+    product_id = str(request.GET['product_id'])
+    quantity = int(request.GET['quantity'])
+    cart_data = request.session['cart_data_obj']
+    cart_total_amount = 0
+    fee = 1.5
+
+    if 'cart_data_obj' in request.session:
+        for p_id, item in cart_data.items():
+            item = cart_data[product_id]
+            item['quantity'] = quantity
+            request.session['cart_data_obj'] = cart_data
+
+            subtotal = round(int(item['quantity']) * float(item['product_price']), 2)
+            item['subtotal'] = subtotal
+            cart_total_amount += subtotal
+        
+        cart_grand_total = round((cart_total_amount + (cart_total_amount * fee)/100), 2)
+        request.session['cart_data_obj'] = cart_data
+
+        print('cart data', cart_data)
+        context = {
+                'cart_total_amount': round(cart_total_amount, 2),
+                'cart_data': cart_data,
+                'cart_grand_total': cart_grand_total,
+            }
+        
+        item = cart_data[product_id]
+
+    data = render_to_string('cart/async/update-cart.html', context)
+
+    return JsonResponse({
+        'data': data,
+        'item': item,
+    })

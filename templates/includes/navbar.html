@@ -117,7 +117,7 @@
         <div class="header-right">
           <div class="search-style-2">
             <form action="{% url 'search_product' %}" method="GET">
-              <select class="select-active" name="category">
+              <select id="category-select" class="select-active" name="category">
                 <option value="">All Categories</option>
                 {% for category in categories %}
                 <option value="{{category.cid}}"  {% if category.cid == request.GET.category %}selected{% endif %}>
@@ -272,7 +272,8 @@
         <div class="header-nav d-none d-lg-flex">
           <div class="main-categori-wrap d-none d-lg-block">
             <a class="categories-button-active" href="#">
-              <span class="fi-rs-apps"></span> All Categories
+              <span class="fi-rs-apps"></span> 
+              <span>All Categories</span>
               <i class="fi-rs-angle-down"></i>
             </a>
             <div
@@ -281,15 +282,22 @@
               <div class="d-flex categori-dropdown-inner">
                 <ul>
                   {% for category in categories %}
-                  <li>
+                  <li >
                     <a
                       href="{% url 'product_per_category' category.title category.cid %}"
+                      class="all-category-list"
                     >
                       <img
                         src="{{ category.image.url }}"
                         alt=""
                       />{{category.title | capfirst }}</a
                     >
+                    <input
+                      type="hidden"
+                      value="{{category.title}}"
+                      class="category-{{category.cid}}"
+                      data-cat-index="{{category.cid}}">
+
                   </li>
                   {% endfor %}
                 </ul>
