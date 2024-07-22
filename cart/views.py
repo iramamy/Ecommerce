@@ -2,6 +2,12 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 
+
+
+def cart_view(request):
+
+    return render(request, 'cart/cart.html')
+
 def add_to_cart(request):
     
     product_id = request.GET.get('product_id')
@@ -35,11 +41,6 @@ def add_to_cart(request):
         'data': request.session['cart_data_obj'],
         'total_items': len(request.session['cart_data_obj'])
     })
-
-
-def cart_view(request):
-
-    return render(request, 'cart/cart.html')
 
 
 def delete_from_cart(request):

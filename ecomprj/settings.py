@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "core",
     "userauths",
     "cart",
+    "wishlist",
 
 ]
 
@@ -79,6 +80,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "core.context_processor.default",
                 "cart.context_processor.cart_view",
+                "wishlist.context_processor.wishlist_view",
             ],
         },
     },
