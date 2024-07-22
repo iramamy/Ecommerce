@@ -1,6 +1,4 @@
 // Add review comment
-console.log('Cool cool cool cool!')
-
 $('#commentForm').submit(function(e){
     e.preventDefault();
 
@@ -84,7 +82,7 @@ $(".add-to-cart-btn").on('click', function(){
 
 });
 
-
+// Remove from cart
 $(document).on('click', '.delete-product', function() {
     let product_id = $(this).attr("data-product");
     let this_val = $(this);
@@ -102,8 +100,6 @@ $(document).on('click', '.delete-product', function() {
         },
         success: function(response) {
             this_val.show();
-            console.log("COOL");
-            console.log(response.data);
 
             // Update the cart item count
             $(".cart-item-count").text(response.total_items);

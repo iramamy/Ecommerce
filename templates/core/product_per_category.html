@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 
 <main class="main">
   <div class="page-header mt-30 mb-50">
@@ -14,14 +16,6 @@
               <span></span> Shop <span></span> {{ category.title | capfirst }}
             </div>
           </div>
-
-          <!-- <div class="col-xl-9 text-end d-none d-xl-block">
-                        <ul class="tags-list">
-                            <li class="hover-up">
-                                <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Cabbage</a>
-                            </li>
-                        </ul>
-                    </div> -->
         </div>
       </div>
     </div>
@@ -293,16 +287,27 @@
                 </div>
 
                 <div class="product-card-bottom">
-                  <div class="product-price">
-                    <span>${{prod.price}}</span>
+                  <div class="product-price lh-1">
+                    <span class="current-price-{{ prod.pid }}">${{ prod.price }}</span>
                     <span class="old-price">${{prod.old_price}}</span>
                   </div>
                   <div class="add-cart">
-                    <a class="add" href="shop-cart.html"
+                    <input type="hidden" name="" id="" value="1" class="product-quantity-{{prod.pid}}"  min="1">
+                    <input type="hidden" value="{{prod.pid}}" name="" id="" class="product-id-{{prod.pid}}">
+                    <input type="hidden" value="{{prod.image.url}}" name="" id="" class="product-image-{{prod.pid}}">
+                    <input type="hidden" value="{{prod.title}}" name="" id="" class="product-title-{{prod.pid}}">
+                    <input type="hidden" value="{{prod.category}}" name="" id="" class="product-category-{{prod.pid}}">
+                    <button
+                      class="add add-to-cart-btn"
+                      style="border: none;"
+                      href="#"
+                      data-index="{{ prod.pid }}"
+                      id="add-to-cart-btn"
                       ><i class="fi-rs-shopping-cart mr-5"></i>Add
-                    </a>
+                    </button>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>

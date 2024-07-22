@@ -210,13 +210,21 @@ def tag_list(request, tag_slug=None):
 
 def search_product(request):
     keyword = request.GET.get('keyword', '')
+    category_id = request.GET.get('category')
+    
     products = Product.objects.none()
     product_count = 0
     
     if keyword:
-        products = Product.objects.filter(
-            Q(title__icontains=keyword) | Q(description__icontains=keyword)
-        ).order_by('-date')
+        if category_id:
+            products = Product.objects.filter(
+                Q(title__icontains=keyword) | Q(description__icontains=keyword), Q(category__cid=category_id)
+            ).order_by('-date')
+        else:
+            products = Product.objects.filter(
+                Q(title__icontains=keyword) | Q(description__icontains=keyword)
+            ).order_by('-date')
+
         product_count = products.count()
 
     context = {
