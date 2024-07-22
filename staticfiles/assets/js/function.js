@@ -126,6 +126,7 @@ $(document).on('input', '.update-product', function() {
     
     $.ajax({
         url: '/cart/update-cart/',
+        method: 'GET',
         data: {
             'product_id': product_id,
             'quantity': quantity

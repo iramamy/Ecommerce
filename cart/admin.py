@@ -9,6 +9,7 @@ class CartAmind(admin.ModelAdmin):
         "product_title",
         "product_quantity",
         "product_price",
+        'product_subtotal',
         "product_category",
     ]
 

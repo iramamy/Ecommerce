@@ -11,7 +11,7 @@ def cart_view(request):
 
     cart_total_amount = 0
     fee = 1.5
-    
+
     if 'cart_data_obj' in request.session:
         del request.session['cart_data_obj']
     
@@ -95,13 +95,13 @@ def add_to_cart(request):
                     product_image=image,
                 )
 
-                subtotal = round(int(quantity) * float(product_price), 2)
+                # subtotal = round(int(quantity) * float(product_price), 2)
 
                 if not created:
                     cart.product_quantity += quantity
-                    cart.product_subtotal = subtotal
+                    cart.product_subtotal = round(cart.product_quantity * float(product_price), 2)
                     cart.save()
-            print(request.session['cart_data_obj'])
+
             return JsonResponse({
                 'bool': True,
                 'data': request.session['cart_data_obj'],
@@ -121,7 +121,7 @@ def delete_from_cart(request):
     cart_data = request.session['cart_data_obj']
     cart_total_amount = 0
     fee = 1.5
-
+    
     if 'cart_data_obj' in request.session:
         if product_id in cart_data:
             del cart_data[product_id]
@@ -157,48 +157,60 @@ def delete_from_cart(request):
     })
 
 def update_cart(request):
-    product_id = str(request.GET['product_id'])
-    quantity = int(request.GET['quantity'])
-    cart_data = request.session['cart_data_obj']
-    cart_total_amount = 0
-    fee = 1.5
 
-    if 'cart_data_obj' in request.session:
-        for p_id, item in cart_data.items():
-            item = cart_data[product_id]
-            item['quantity'] = quantity
-            print('item', item)
+    if request.method == 'GET':
 
-            request.session['cart_data_obj'] = cart_data
-            request.session.modified = True
+        product_id = str(request.GET['product_id'])
+        quantity = int(request.GET['quantity'])
+        cart_data = request.session['cart_data_obj']
+        cart_total_amount = 0
+        fee = 1.5
 
-            subtotal = round(int(item['quantity']) * float(item['product_price']), 2)
-            item['subtotal'] = subtotal
-            # print('subtotal', subtotal)
-            # cart_total_amount += subtotal
-    if 'cart_data_obj' in request.session:
-        for p_id, item in cart_data.items():
-            subtotal = round(int(item['quantity']) * float(item['product_price']), 2)
-            item['subtotal'] = subtotal
-            cart_total_amount += subtotal
+        try:
+            cart_items = Cart.objects.filter(user=request.user, product_id=product_id)
 
-        cart_grand_total = round((cart_total_amount + (cart_total_amount * fee)/100), 2)
-        request.session['cart_data_obj'] = cart_data
+            if 'cart_data_obj' in request.session:
+                for p_id, item in cart_data.items():
+                    item = cart_data[product_id]
+                    item['quantity'] = quantity
 
-        # print('cart data', cart_data)
-        
-        # print('cart_grand_total', cart_grand_total)
-        context = {
-                'cart_total_amount': round(cart_total_amount, 2),
-                'cart_data': cart_data,
-                'cart_grand_total': cart_grand_total,
-            }
-        
-        item = cart_data[product_id]
+                    request.session['cart_data_obj'] = cart_data
+                    request.session.modified = True
 
-    data = render_to_string('cart/async/update-cart.html', context)
+                    subtotal = round(int(item['quantity']) * float(item['product_price']), 2)
+                    item['subtotal'] = subtotal
 
-    return JsonResponse({
-        'data': data,
-        'item': item,
-    })
+                    # Save to database
+                    cart_items.update(
+                        product_quantity=quantity,
+                        product_subtotal=subtotal
+                        )
+
+            if 'cart_data_obj' in request.session:
+                for p_id, item in cart_data.items():
+                    subtotal = round(int(item['quantity']) * float(item['product_price']), 2)
+                    item['subtotal'] = subtotal
+                    cart_total_amount += subtotal
+
+                cart_grand_total = round((cart_total_amount + (cart_total_amount * fee)/100), 2)
+                request.session['cart_data_obj'] = cart_data
+
+                # print('cart data', cart_data)
+                
+                # print('cart_grand_total', cart_grand_total)
+                context = {
+                        'cart_total_amount': round(cart_total_amount, 2),
+                        'cart_data': cart_data,
+                        'cart_grand_total': cart_grand_total,
+                    }
+                
+                item = cart_data[product_id]
+        except Cart.DoesNotExist:
+            cart_items = None
+
+        data = render_to_string('cart/async/update-cart.html', context)
+
+        return JsonResponse({
+            'data': data,
+            'item': item,
+        })
