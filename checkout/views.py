@@ -18,12 +18,14 @@ def checkout(request):
 
     # Show item in check out
     total_amount = 0
+    
     try:
         checkout_items = Cart.objects.filter(
             user=request.user
         )
+
         for item in checkout_items:
-            total_amount += item.product_quantity * item.product_price
+            total_amount += item.product_quantity * item.product.price
         
     except Cart.DoesNotExist:
         checkout_items = None
@@ -51,13 +53,15 @@ def checkout(request):
 
             order_item, order_item_created = OrderItem.objects.get_or_create(
                 order=order,
-                item=item.product_title,
+                item=item.product.title,
                 quantity=item.product_quantity,
-                image=item.product_image,
-                price=item.product_price,
-                total=item.product_price*item.product_quantity,
+                image=item.product.image,
+                price=item.product.price,
+                total=item.product.price*item.product_quantity,
                 product_status=order.product_status.capitalize()
             )
+
+            print('image', item.product.image)
 
             if not order_item_created:
                 pass

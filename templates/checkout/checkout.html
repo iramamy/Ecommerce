@@ -872,14 +872,14 @@
                   <tr>
                     <td class="image product-thumbnail">
                       <img
-                        src="{{item.product_image}}"
+                        src="{{item.product.image.url}}"
                         alt="#"
                       />
                     </td>
                     <td>
                       <h6 class="w-160 mb-5">
                         <a
-                          href="{% url 'product_detail'  item.product_category item.product_id %}"
+                          href="{% url 'product_detail'  item.product.category item.product.pid %}"
                           class="text-heading">
                           {{item.product_title}}
                         </a>

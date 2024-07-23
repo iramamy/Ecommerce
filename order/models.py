@@ -1,7 +1,9 @@
 from django.db import models
 from userauths.models import User
 from django.utils.html import mark_safe
-# Create your models here.
+from core.models import Product
+
+
 
 STATUS_CHOICE = (
     ("processing", 'Processing'),
@@ -48,6 +50,9 @@ class Order(models.Model):
     class Meta:
         verbose_name_plural = 'Orders'
 
+    def __str__(self):
+        return f'{self.user.username}:{self.invoice_number}'
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_status = models.CharField(max_length=200)
@@ -62,7 +67,28 @@ class OrderItem(models.Model):
         verbose_name_plural = 'Order Items'
 
     def item_image(self):
-        return mark_safe('<img src="{}" width="50" />'.format(self.image)) # noqa
+        return mark_safe(f'<img src="/media/{self.image}" width="50" />') # noqa
     
     def __str__(self):
-        return self.order.user.username
+        return f"order-{self.order.id}"
+
+
+   
+class OrderProduct(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True ,null=True)
+    quantity = models.IntegerField()
+    product_price = models.FloatField()
+    ordered = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_ad = models.DateTimeField(auto_now=True)
+
+    @property
+    def total_price(self):
+        return self.product_price * self.quantity
+
+    def __str__(self):
+        return str(self.product.product_name)

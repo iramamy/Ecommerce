@@ -6,16 +6,12 @@ class CartAmind(admin.ModelAdmin):
     list_display = [
         "user",
         'image',
-        "product_title",
         "product_quantity",
-        "product_price",
         'product_subtotal',
-        "product_category",
+        "product",
     ]
 
-    list_filter = ["user", "product_category"]
-
-    readonly_fields = ['product_image', ]
-
+    list_filter = ["user", ]
+    
 # Register your models here.
 admin.site.register(Cart, CartAmind)

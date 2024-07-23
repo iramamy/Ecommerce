@@ -7,18 +7,20 @@ def cart_view(request):
 
     if 'cart_data_obj' in request.session:
         del request.session['cart_data_obj']
-        
+
     if request.user.is_authenticated:
+
         try:
             cart_items = Cart.objects.filter(user=request.user)
             cart_data_obj = {}
+
             for item in cart_items:
-                cart_data_obj[item.product_id] = {
-                    'product_title': item.product_title,
-                    'quantity': item.product_quantity,
-                    'product_price': item.product_price,
-                    'image': item.product_image,
-                    'category': item.product_category,
+                cart_data_obj[item.product.pid] = {
+                    'product_title': str(item.product.title),
+                    'quantity': int(item.product_quantity),
+                    'product_price': float(item.product.price),
+                    'image': str(item.product.image.url),
+                    'category': str(item.product.category),
                 }
             
             request.session['cart_data_obj'] = cart_data_obj

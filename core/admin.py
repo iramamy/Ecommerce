@@ -34,6 +34,8 @@ class ProductAdmin(admin.ModelAdmin):
         'vendor',
     ]
 
+    list_editable = ['featured',]
+
 
 class CategoryAdmin(admin.ModelAdmin):
 
