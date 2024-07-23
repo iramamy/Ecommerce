@@ -1,4 +1,4 @@
-// Add to cart
+// Add to wishlist
 $(document).on('click', '.add-to-wishlist-btn', function(){
     console.log('ok ok ok ok ok ok');
 
@@ -18,6 +18,7 @@ $(document).on('click', '.add-to-wishlist-btn', function(){
 
     $.ajax({
         url: '/wishlist/add-to-wishlist/',
+        method: 'GET',
         data: {
             'product_id': product_id,
             'quantity': quantity,
@@ -31,12 +32,16 @@ $(document).on('click', '.add-to-wishlist-btn', function(){
             console.log('Product sent to wishlist');
         },
         success: function(response) {
-            console.log('SUCCESS');
-            this_val.html('<i class="fa-solid fa-check"></i>');
-            this_val.attr('aria-label', 'Added to wishlist');
 
-            $(".wishlist-item-count").text(response.total_items);
+            if (response.redirect) {
+                window.location.href = response.redirect;
+                
+            } else {
+                this_val.html('<i class="fa-solid fa-check"></i>');
+                this_val.attr('aria-label', 'Added to wishlist');
 
+                $(".wishlist-item-count").text(response.total_items);
+            };
         },
     })
 });
@@ -65,7 +70,7 @@ $(document).on('click', '.delete-product-wishlist', function() {
             // Update the cart list HTML
             $("#wish-list").html(response.data);
 
-            console.log("SUCCESS");
+            // console.log("SUCCESS");
         }
     });
 });

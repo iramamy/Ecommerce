@@ -8,7 +8,6 @@ from .models import (
     CartOrderItem,
     ProductImage,
     ProductReview,
-    WishList,
     Address
 )
 
@@ -88,15 +87,6 @@ class ProductReviewAdmin(admin.ModelAdmin):
     ]
 
 
-class WishlistAdmin(admin.ModelAdmin):
-
-    list_display = [
-        "user",
-        'product',
-        'date',
-    ]
-
-
 class AddressAdmin(admin.ModelAdmin):
 
     list_display = [
@@ -112,5 +102,4 @@ admin.site.register(Vendor, VendorAdmin)
 admin.site.register(CartOrder, CartOrderAdmin)
 admin.site.register(CartOrderItem, CartOrderItemAdmin)
 admin.site.register(ProductReview, ProductReviewAdmin)
-admin.site.register(WishList, WishlistAdmin)
 admin.site.register(Address, AddressAdmin)

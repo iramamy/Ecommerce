@@ -15,5 +15,7 @@ class CartAmind(admin.ModelAdmin):
 
     list_filter = ["user", "product_category"]
 
+    readonly_fields = ['product_image', ]
+
 # Register your models here.
 admin.site.register(Cart, CartAmind)

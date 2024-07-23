@@ -243,17 +243,6 @@ class ProductReview(models.Model):
         return self.rating
 
 
-class WishList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name_plural = 'Wish Lists'
-
-    def __str__(self):
-        return str(self.product.title)
-
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=150, null=True)

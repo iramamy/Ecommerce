@@ -4451,7 +4451,15 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-
+/* wishlist */
+.add-to-wishlist-btn {
+    border-right: 1px solid #3BB77E; 
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    background: none;
+    color: #3BB77E ;
+}
 
 .product-cart-wrap .product-card-bottom .add-cart .add {
     position: relative;
