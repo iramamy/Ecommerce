@@ -221,10 +221,10 @@ class CartOrderItem(models.Model):
 
 
 
-########################### Product review, wishlist, address ######################
-########################### Product review, wishlist, address ######################
-########################### Product review, wishlist, address ######################
-########################### Product review, wishlist, address ######################
+########################### Product review, address ######################
+########################### Product review, address ######################
+########################### Product review, address ######################
+########################### Product review, address ######################
 
 class ProductReview(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
