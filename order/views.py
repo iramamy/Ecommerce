@@ -1,8 +1,9 @@
 from django.shortcuts import render
 import json
+from django.http import JsonResponse
 
-from .models import Payment, Order
-from cart.models import Cart
+from .models import Payment, Order, OrderProduct
+from cart.models import Cart, Product
 
 
 def payement(request):
@@ -36,13 +37,39 @@ def payement(request):
         order.save()
 
     # Move item to user history
-    # try:
-    #     cart_items = Cart.objects.filter(
-    #         user=request.user
-    #     )
+    try:
+        cart_items = Cart.objects.filter(
+            user=request.user
+        )
+    except Cart.DoesNotExist:
+        cart_items = None
 
+    for item in cart_items:
+        order_product = OrderProduct()
+        order_product.order_id = order.id
+        order_product.user = request.user
+        order_product.payment = payement
+        order_product.product_id = item.product.id
+        order_product.quantity = item.product_quantity
+        order_product.product_price = item.product.price
+        order_product.ordered = True
+        order_product.save()
 
-    return render(request, 'order/payement.html')
+        # Reduce quantity in stock
+        product = Product.objects.get(pid=item.product.pid)
+        product.stock_count -= item.product_quantity
+        product.save()
+
+    # Clear item in cart
+    Cart.objects.filter(user=request.user).delete()
+
+    # Render payment complete page
+    data = {
+        'invoice_number': order.invoice_number,
+        'transID': payement.payment_id,
+    }
+
+    return JsonResponse(data)
 
 
 def payement_failed(request):

@@ -872,7 +872,7 @@
                   <tr>
                     <td class="image product-thumbnail">
                       <img
-                        src="{{item.product.image.url}}"
+                        src="{% static '{{item.product.image.url}}' %}"
                         alt="#"
                       />
                     </td>
@@ -987,9 +987,18 @@
               alt=""
             />
           </div>
-          <!-- <a href="#" class="btn btn-fill-out btn-block mt-30 mb-30"
-            >Place an Order<i class="fi-rs-sign-out ml-15"></i
-          ></a> -->
+          <div id="spinner" class="spinner">
+            <div  class="preloader d-flex align-items-center justify-content-center" >
+                <div class="preloader-inner position-relative">
+                    <div class="text-center">
+                        <img src="{% static 'assets/imgs/theme/loading.gif' %}" alt="" />
+                    </div>
+                    <span>
+                      Processing Payement ...
+                    </span>
+                </div>
+            </div>
+          </div>
               <!-- Paypal button -->
           <div id="paypal-button-container" class="mb-30 mt-30">
           </div>
@@ -1022,6 +1031,7 @@
   var csrf_token = getCookie('csrftoken');
   var orderID = '{{order_number}}';
   var payment_method = 'PayPal';
+  var redirect_url = '{% url "payement_completed" %}'
 
   paypal.Buttons({
 
@@ -1043,6 +1053,9 @@
   },
 
   onApprove: function(data, actions) {
+
+    document.getElementById('spinner').style.display = 'block';
+
     return actions.order.capture().then(function(details) {
 
       console.log('Details', details);
@@ -1062,9 +1075,14 @@
             status: details.status
           }),
         })
-        // .then(response => response.json)
-        // .then(data => console.log(data))
-      }
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("SUCCESS", data);
+          console.log('Transaction completed!');
+          document.getElementById('spinner').style.display = 'none';
+          window.location.href = redirect_url+'?invoice_number='+data.invoice_number+'&payment_id='+data.transID;
+        })
+      } 
     });
   }
   }).render('#paypal-button-container');

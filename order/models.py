@@ -91,4 +91,4 @@ class OrderProduct(models.Model):
         return self.product_price * self.quantity
 
     def __str__(self):
-        return str(self.product.product_name)
+        return str(self.product.title)

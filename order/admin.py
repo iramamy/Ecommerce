@@ -27,6 +27,17 @@ class OrderItemAdmin(admin.ModelAdmin):
         'product_status'
     ]
 
+    readonly_fields = [
+        'order',
+        'item',
+        'item_image',
+        'image',
+        'quantity',
+        'price',
+        'total',
+        'product_status'
+    ]
+
 class OrderAdmin(admin.ModelAdmin):
 
     list_display = [
@@ -39,7 +50,17 @@ class OrderAdmin(admin.ModelAdmin):
         'order_date',        
     ]
 
-    list_editable = ['product_status',]
+    readonly_fields = [
+        "user",
+        'invoice_number',
+        'payement',
+        "price",
+        'paid_status',
+        'product_status',
+        'order_date',        
+    ]
+
+    
     
     inlines = [OrderItemInline]
 
@@ -57,6 +78,17 @@ class PaymentAdmin(admin.ModelAdmin):
 class OrderProductAdmin(admin.ModelAdmin):
 
     list_display = [
+        "user",
+        "product",
+        'order',
+        "payment",
+        "quantity",
+        "product_price",
+        "ordered",
+        "created_at",
+    ]
+
+    readonly_fields = [
         "user",
         "product",
         'order',

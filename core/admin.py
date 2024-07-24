@@ -19,7 +19,6 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageAdmin]
 
     list_display = [
-        "user",
         'title',
         'product_image',
         'price',
@@ -27,6 +26,7 @@ class ProductAdmin(admin.ModelAdmin):
         'vendor',
         'featured',
         'product_status',
+        'stock_count',
     ]
 
     list_filter = [
