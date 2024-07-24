@@ -45,7 +45,7 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="logo d-flex align-items-center">
-                        <a href="index.html" class="mr-20"
+                        <a href="{% url 'home' %}" class="mr-20"
                           ><img
                             src="{% static 'assets/imgs/theme/favicon.svg' %}"
                             alt="logo"
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-md-6 text-end">
                       <h2>INVOICE</h2>
-                      <h6>ID Number: <span class="text-brand">98657</span></h6>
+                      <h6>ID Number: <span class="text-brand">{{order.invoice_number}}</span></h6>
                     </div>
                   </div>
                 </div>
@@ -81,71 +81,25 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <div class="item-desc-1">
-                              <span
-                                >Field Roast Chao Cheese Creamy Original</span
-                              >
-                              <small>SKU: FWM15VKT</small>
-                            </div>
-                          </td>
-                          <td class="text-center">$10.99</td>
-                          <td class="text-center">1</td>
-                          <td class="text-right">$10.99</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="item-desc-1">
-                              <span>Blue Diamond Almonds Lightly Salted</span>
-                              <small>SKU: FWM15VKT</small>
-                            </div>
-                          </td>
-                          <td class="text-center">$20.00</td>
-                          <td class="text-center">3</td>
-                          <td class="text-right">$60.00</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="item-desc-1">
-                              <span
-                                >Fresh Organic Mustard Leaves Bell Pepper</span
-                              >
-                              <small>SKU: KVM15VK</small>
-                            </div>
-                          </td>
-                          <td class="text-center">$640.00</td>
-                          <td class="text-center">1</td>
-                          <td class="text-right">$640.00</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="item-desc-1">
-                              <span
-                                >All Natural Italian-Style Chicken
-                                Meatballs</span
-                              >
-                              <small>SKU: 98HFG</small>
-                            </div>
-                          </td>
-                          <td class="text-center">$240.00</td>
-                          <td class="text-center">1</td>
-                          <td class="text-right">$240.00</td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" class="text-end f-w-600">SubTotal</td>
-                          <td class="text-right">$1710.99</td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" class="text-end f-w-600">Tax</td>
-                          <td class="text-right">$85.99</td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" class="text-end f-w-600">
-                            Grand Total
-                          </td>
-                          <td class="text-right f-w-600">$1795.99</td>
-                        </tr>
+                        
+                        {% for item_ordered in order_products %}
+                          <tr>
+                            <td>
+                              <div class="item-desc-1">
+                                <span>
+                                  {{item_ordered.product.title}}
+                                </span>
+                                <small>SKU: {{item_ordered.product.sku}}</small>
+                              </div>
+                            </td>
+                            <td class="text-center">${{item_ordered.product.price}}</td>
+                            <td class="text-center">{{item_ordered.quantity}}</td>
+                            <td class="text-right">${{item_ordered.total_price}}</td>
+                          </tr>
+                        {% endfor %}
+                          
+                       
+                       
                       </tbody>
                     </table>
                   </div>
@@ -155,14 +109,14 @@
                     <div class="col-md-6">
                       <h6 class="mb-15">Invoice Infor</h6>
                       <p class="font-sm">
-                        <strong>Issue date:</strong> 20 march, 2022<br />
-                        <strong>Invoice To:</strong> NestMart Inc<br />
+                        <strong>Issue date:</strong> {{order.order_date}}<br />
+                        <strong>Invoice To:</strong> {{order.user}}<br />
                         <strong>Swift Code:</strong> BFTV VNVXS
                       </p>
                     </div>
                     <div class="col-md-6 text-end">
                       <h6 class="mb-15">Total Amount</h6>
-                      <h3 class="mt-0 mb-0 text-brand">$1795.99</h3>
+                      <h3 class="mt-0 mb-0 text-brand">${{grand_total}}</h3>
                       <p class="mb-0 text-muted">Taxes Included</p>
                     </div>
                   </div>
