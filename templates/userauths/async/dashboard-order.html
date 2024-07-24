@@ -1,0 +1,45 @@
+<div class="card" id="order-detail-container">
+  <div class="card-header">
+    <h3 class="mb-0">Your Orders</h3>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+  
+          <tr>
+            <td>#{{order.invoice_number}}</td>
+            <td>{{order.order_date}}</td>
+            <td>{{order.product_status|capfirst}}</td>
+            <td>
+              ${{order.price}} for {{order.item_count}}
+              item{{order.item_count|pluralize}}
+            </td>
+            <td>
+              <button
+                style="background: none; border: none; color: #3bb77e"
+                href="{% url 'order_detail' order.invoice_number %}"
+                class="btn-small d-block view-order-detail"
+                data-order-id="{{order.invoice_number}}"
+              >
+                View
+              </button>
+            </td>
+          </tr>
+  
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

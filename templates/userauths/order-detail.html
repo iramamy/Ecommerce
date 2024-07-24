@@ -1,0 +1,44 @@
+
+<div class="card" id="order-detail-container">
+  <div class="card-header">
+    <h3 class="mb-0">Order #{{order.invoice_number}}</h3>
+  </div>
+  
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Vendor</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          {% for order in order_products %}
+
+          <tr>
+              <td class="image product-thumbnail pt-40">
+                  <img
+                    src="/media/{{order.product.image}}"
+                    alt="product-image"
+                  >
+              </td>
+              <td>{{order.product.title}}</td>
+              <td>{{order.product.vendor}}</td>
+              <td>{{order.quantity}}</td>
+              <td>${{order.total_price}}</td>
+            </tr>
+              
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+               

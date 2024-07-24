@@ -14,7 +14,7 @@
           <div class="header-info">
             <ul>
               <li><a href="page-about.html">About Us</a></li>
-              <li><a href="page-account.html">My Account</a></li>
+              <li><a href="{% url 'dashboard' %}">My Account</a></li>
               <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
               <li><a href="shop-order.html">Order Tracking</a></li>
             </ul>
@@ -201,14 +201,14 @@
                 
               </div>
               <div class="header-action-icon-2">
-                <a href="page-account.html">
+                <a href="{% url 'dashboard' %}">
                   <img
                     class="svgInject"
                     alt="Nest"
                     src="{% static 'assets/imgs/theme/icons/icon-user.svg' %}"
                   />
                 </a>
-                <a href="page-account.html"
+                <a href="{% url 'dashboard' %}"
                   ><span class="lable ml-0">Account</span></a
                 >
                 <div
@@ -216,7 +216,7 @@
                 >
                   <ul>
                     <li>
-                      <a href="page-account.html"
+                      <a href="{% url 'dashboard' %}"
                         ><i class="fi fi-rs-user mr-10"></i>My Account</a
                       >
                     </li>
@@ -535,7 +535,7 @@
                   <ul class="sub-menu">
                     <li><a href="page-about.html">About Us</a></li>
                     <li><a href="page-contact.html">Contact</a></li>
-                    <li><a href="page-account.html">My Account</a></li>
+                    <li><a href="{% url 'dashboard' %}">My Account</a></li>
                     <li><a href="page-login.html">Login</a></li>
                     <li><a href="page-register.html">Register</a></li>
                     <li>
@@ -808,9 +808,9 @@
               <ul class="dropdown">
                 <li><a href="page-about.html">About Us</a></li>
                 <li><a href="page-contact.html">Contact</a></li>
-                <li><a href="page-account.html">My Account</a></li>
-                <li><a href="page-login.html">Login</a></li>
-                <li><a href="page-register.html">Register</a></li>
+                <li><a href="{% url 'dashboard' %}">My Account</a></li>
+                <li><a href="{% url 'signin' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
                 <li><a href="page-forgot-password.html">Forgot password</a></li>
                 <li><a href="page-reset-password.html">Reset password</a></li>
                 <li><a href="page-purchase-guide.html">Purchase Guide</a></li>

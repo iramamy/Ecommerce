@@ -1,8 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
 from .forms import UserRegisterForm
 from .models import User
+from order.models import Order, OrderProduct
 
 
 def register(request):
@@ -74,3 +80,49 @@ def signout(request):
 
     messages.success(request, 'You are currently logged out!')
     return redirect('signin')
+
+# User dashbord
+@login_required(login_url='signin')
+def dashboard_view(request):
+    return render(request, 'userauths/dashboard.html')
+    
+
+def dashboard_order(request):
+    # Get orders
+    orders = Order.objects.filter(
+        user=request.user,
+        paid_status=True
+    ).annotate(item_count=Count('orderitem')).order_by('-order_date')
+
+    context = {
+        'orders': orders,
+    }
+
+    
+    data = render_to_string('userauths/async/dashboard-order.html', context)
+
+    return JsonResponse({
+        'data': data
+    })
+
+
+def order_detail(request, orderID):
+    order = Order.objects.get(
+        user=request.user,
+        paid_status=True,
+        invoice_number=orderID
+    )
+
+    print("Order", order)
+
+    order_products = OrderProduct.objects.filter(order=order).order_by('-created_at')
+
+    context = {
+        'order_products': order_products,
+        'order': order,
+    }
+    data = render_to_string('userauths/order-detail.html', context)
+
+    return JsonResponse({
+        'data': data
+    })

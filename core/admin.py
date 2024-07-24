@@ -5,8 +5,7 @@ from .models import (
     Vendor,
     Product,
     ProductImage,
-    ProductReview,
-    Address
+    ProductReview
 )
 
 class ProductImageAdmin(admin.TabularInline):
@@ -63,19 +62,9 @@ class ProductReviewAdmin(admin.ModelAdmin):
         'review',
         'date',
     ]
-
-
-class AddressAdmin(admin.ModelAdmin):
-
-    list_display = [
-        "user",
-        'address',
-        'status',
-    ]
-
+    
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(ProductReview, ProductReviewAdmin)
-admin.site.register(Address, AddressAdmin)

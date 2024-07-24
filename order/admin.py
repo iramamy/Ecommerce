@@ -56,7 +56,6 @@ class OrderAdmin(admin.ModelAdmin):
         'payement',
         "price",
         'paid_status',
-        'product_status',
         'order_date',        
     ]
 
