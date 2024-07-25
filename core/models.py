@@ -202,11 +202,3 @@ class ProductReview(models.Model):
         return self.rating
 
 
-# class Address(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     address = models.CharField(max_length=150, null=True)
-#     status = models.BooleanField(default=False)
-
-#     class Meta:
-#         verbose_name_plural = 'Address'
-

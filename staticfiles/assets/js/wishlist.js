@@ -1,6 +1,5 @@
 // Add to wishlist
 $(document).on('click', '.add-to-wishlist-btn', function(){
-    console.log('ok ok ok ok ok ok');
 
     let this_val = $(this);
 
@@ -11,10 +10,6 @@ $(document).on('click', '.add-to-wishlist-btn', function(){
     let product_id = $(".product-id-" + _index).val();
     let product_price = $(".current-price-" + _index).text().replace('$', '');
     let product_image = $(".product-image-" + _index).val();
-
-    console.log(
-        'this_val', this_val
-    );
 
     $.ajax({
         url: '/wishlist/add-to-wishlist/',
@@ -28,9 +23,6 @@ $(document).on('click', '.add-to-wishlist-btn', function(){
             'category': category
         },
         dataType: 'json',
-        beforeSend: function() {
-            console.log('Product sent to wishlist');
-        },
         success: function(response) {
 
             if (response.redirect) {

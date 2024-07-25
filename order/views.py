@@ -1,12 +1,105 @@
 from django.shortcuts import render, redirect, get_object_or_404
 import json
 from django.http import JsonResponse
+import datetime
 
 from .models import Payment, Order, OrderProduct, OrderItem
 from cart.models import Cart, Product
+from userauths.models import Address
 
 
-def payement(request):
+# Create order number
+def order_number():
+
+    now = datetime.datetime.now()
+    return now.strftime("%Y%m%d%H%M%S")
+
+
+def place_order(request):
+    
+    try:
+        address = Address.objects.get(user=request.user)
+    except Address.DoesNotExist:
+        address = None
+
+    # Show item in check out
+    total_amount = 0
+    
+    try:
+        checkout_items = Cart.objects.filter(
+            user=request.user
+        )
+
+        for item in checkout_items:
+            total_amount += item.product_quantity * item.product.price
+        
+    except Cart.DoesNotExist:
+        checkout_items = None
+
+    try:
+        order, order_created = Order.objects.get_or_create(
+            user=request.user,
+            price=total_amount,
+            product_status='processing',
+            paid_status=False,
+            defaults={
+                'address': address,
+                'invoice_number': order_number()
+            }
+        )
+        if not order_created:
+            order.invoice_number = order_number()
+            order.address = address
+            order.save()
+
+    except Order.DoesNotExist:
+        pass
+
+    # Place items to order item
+    try:
+        for item in checkout_items:
+
+            order_item, order_item_created = OrderItem.objects.get_or_create(
+                order=order,
+                item=item.product.title,
+                quantity=item.product_quantity,
+                image=item.product.image,
+                price=item.product.price,
+                total=item.product.price*item.product_quantity,
+                product_status=order.product_status.capitalize()
+            )
+
+            if not order_item_created:
+                pass
+
+    except OrderItem.DoesNotExist:
+        pass
+
+    # Show item in check out
+    total_amount = 0
+
+    try:
+        checkout_items = Cart.objects.filter(
+            user=request.user
+        )
+
+        for item in checkout_items:
+            total_amount += item.product_quantity * item.product.price
+        
+    except Cart.DoesNotExist:
+        checkout_items = None
+
+    context = {
+        'checkout_items': checkout_items,
+        'total_item': checkout_items.count(),
+        'total_amount': round(total_amount, 2),
+        'order_number': order.invoice_number,
+        'address': address
+    }
+
+    return render(request, 'order/place_order.html', context)
+
+def payment(request):
 
     body = json.loads(request.body)
 
@@ -20,7 +113,7 @@ def payement(request):
         order = None
     
     # Store transaction detail
-    payement = Payment(
+    payment = Payment(
         user=request.user,
         amount_paid=order.price,
         payment_id=body['transID'],
@@ -29,13 +122,13 @@ def payement(request):
     )
 
     # Save
-    payement.save()
+    payment.save()
 
     if payment.status != 'COMPLETED':
         return redirect('payment_failed')
 
     order.paid_status = True
-    order.payement = payement
+    order.payment = payment
     order.save()
 
     # Move item to user history
@@ -50,7 +143,7 @@ def payement(request):
         order_product = OrderProduct()
         order_product.order_id = order.id
         order_product.user = request.user
-        order_product.payment = payement
+        order_product.payment = payment
         order_product.product_id = item.product.id
         order_product.quantity = item.product_quantity
         order_product.product_price = item.product.price
@@ -68,7 +161,7 @@ def payement(request):
     # Render payment complete page
     data = {
         'invoice_number': order.invoice_number,
-        'transID': payement.payment_id,
+        'transID': payment.payment_id,
     }
 
     return JsonResponse(data)
@@ -100,7 +193,6 @@ def payment_completed(request):
         'order_products': ordered_products,
         'grand_total': grand_total
     }
-
 
     return render(request, 'order/payment-completed.html', context)
 

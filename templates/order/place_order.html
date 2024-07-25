@@ -1,0 +1,364 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<main class="main">
+  <div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html" rel="nofollow"
+          ><i class="fi-rs-home mr-5"></i>Home</a
+        >
+        <span></span> Shop <span></span> Checkout
+      </div>
+    </div>
+  </div>
+  <div class="container mb-80 mt-50">
+    <div class="mb-40 text-center">
+      <h1 class="heading-2 mb-10">Your order</h1>
+
+      <h6 class="text-body">
+        There {% if total_item > 1 %}
+        <span>are</span>
+        {% else %}
+        <span>is</span>
+        {% endif %}
+
+        <span class="text-brand"> {{ total_item }} </span>
+        product{{total_item|pluralize}} in your order
+      </h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="row mb-50">
+        <div class="">
+          <form method="post" class="apply-coupon">
+            <input type="text" placeholder="Enter Coupon Code..." />
+            <button class="btn btn-md" name="login">Apply Coupon</button>
+          </form>
+        </div>
+      </div>
+      <div class="row" id="order2checkout">
+        <h3 class="mb-30">Billing Details</h3>
+        <form id="userForm" method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="first_name"
+                placeholder="First name *"
+                required
+                value="{{address.first_name}}"
+              />
+            </div>
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="last_name"
+                placeholder="Last name *"
+                value="{{address.last_name}}"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="address1"
+                placeholder="Address *"
+                required
+                value="{{address.address1}}"
+              />
+            </div>
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="address2"
+                placeholder="Address line2"
+                value="{{address.address2}}"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <input type="text" name="country" placeholder="Country *" value="{{address.country}}"/>
+            </div>
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="city"
+                placeholder="City / Town *"
+                required
+                value="{{address.city}}"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="zipcode"
+                placeholder="Postcode / ZIP *"
+                required
+                value="{{address.zipcode}}"
+              />
+            </div>
+            <div class="form-group col-lg-6">
+              <input type="text" name="phone" placeholder="Phone *" required value="{{address.phone}}"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="company_name"
+                placeholder="Company Name"
+                value="{{address.company_name}}"
+              />
+            </div>
+            <div class="form-group col-lg-6">
+              <input
+                type="text"
+                name="email"
+                placeholder="Email address *"
+                required
+                value="{{address.email}}"
+              />
+            </div>
+          </div>
+          <div class="form-group mb-30">
+            <textarea
+              name="additional_info"
+              rows="5"
+              placeholder="Additional information"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="border p-40 cart-totals ml-30 mb-50">
+        <div class="d-flex align-items-end justify-content-between mb-30">
+          <h4>Your Order</h4>
+          <h6 class="text-muted">Subtotal</h6>
+        </div>
+        <div class="divider-2 mb-30"></div>
+        <div class="table-responsive order_table checkout">
+          <table class="table no-border">
+            <tbody>
+              {% for item in checkout_items %}
+
+              <tr>
+                <td class="image product-thumbnail">
+                  <img src="{{item.product.image.url}}" alt="#" />
+                </td>
+                <td>
+                  <h6 class="w-160 mb-5">
+                    <a
+                      href="{% url 'product_detail'  item.product.category item.product.pid %}"
+                      class="text-heading"
+                    >
+                      {{item.product_title}}
+                    </a>
+                  </h6>
+                  <div class="product-rate-cover">
+                    <div class="product-rate d-inline-block">
+                      <div class="product-rating" style="width: 90%"></div>
+                    </div>
+                    <span class="font-small ml-5 text-muted"> (4.0)</span>
+                  </div>
+                </td>
+                <td>
+                  <h6 class="text-muted pl-20 pr-20">
+                    x {{item.product_quantity}}
+                  </h6>
+                </td>
+                <td>
+                  <h4 class="text-brand">${{item.product_subtotal}}</h4>
+                  <span>{{order_number}}</span>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="payment ml-30">
+        <h4 class="mb-30">Payment</h4>
+        <div class="payment_option">
+          <div class="custome-radio">
+            <input
+              class="form-check-input"
+              required
+              type="radio"
+              name="payment_option"
+              id="exampleRadios3"
+              checked=""
+            />
+            <label
+              class="form-check-label"
+              for="exampleRadios3"
+              data-bs-toggle="collapse"
+              data-target="#bankTranfer"
+              aria-controls="bankTranfer"
+              >Direct Bank Transfer</label
+            >
+          </div>
+          <div class="custome-radio">
+            <input
+              class="form-check-input"
+              required=""
+              type="radio"
+              name="payment_option"
+              id="exampleRadios4"
+              checked=""
+            />
+            <label
+              class="form-check-label"
+              for="exampleRadios4"
+              data-bs-toggle="collapse"
+              data-target="#checkPayment"
+              aria-controls="checkPayment"
+              >Cash on delivery</label
+            >
+          </div>
+          <div class="custome-radio">
+            <input
+              class="form-check-input"
+              required=""
+              type="radio"
+              name="payment_option"
+              id="exampleRadios5"
+              checked=""
+            />
+            <label
+              class="form-check-label"
+              for="exampleRadios5"
+              data-bs-toggle="collapse"
+              data-target="#paypal"
+              aria-controls="paypal"
+              >Online Getway</label
+            >
+          </div>
+        </div>
+
+        <div id="spinner" class="spinner">
+          <div
+            class="preloader d-flex align-items-center justify-content-center"
+          >
+            <div class="preloader-inner position-relative">
+              <div class="text-center">
+                <img
+                  src="{% static 'assets/imgs/theme/loading.gif' %}"
+                  alt=""
+                />
+              </div>
+              <span> Processing Payement ... </span>
+            </div>
+          </div>
+        </div>
+
+        <div id="paypal-button-container" class="mb-30 mt-30"></div>
+        <button
+          href="{% url 'checkout' %}"
+          class="btn btn-fill-out btn-block mt-30 mb-30"
+          id="checkout-btn"
+        >
+          Proceed to checkout<i class="fi-rs-sign-out ml-15"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  var total_amount = "{{ total_amount }}";
+  var url = '{% url "payment" %}';
+  var csrf_token = getCookie("csrftoken");
+  var orderID = "{{order_number}}";
+  var payment_method = "PayPal";
+  var redirect_url = '{% url "payment_completed" %}';
+
+  paypal
+    .Buttons({
+      style: {
+        color: "gold",
+        shape: "pill",
+        label: "pay",
+        height: 40,
+      },
+
+      // onClick(){
+      //   console.log('total_amount', total_amount);
+      //   console.log('orderID', orderID);
+      //   console.log('total_amount', total_amount);
+      //   console.log('payment_method', payment_method);
+      // },
+
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: {
+                value: total_amount,
+              },
+            },
+          ],
+        });
+      },
+      onApprove: function (data, actions) {
+        document.getElementById("spinner").style.display = "block";
+
+        return actions.order.capture().then(function (details) {
+          console.log("Details", details);
+
+          sendData();
+          function sendData() {
+            fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+                "X-CSRFToken": csrf_token,
+              },
+              body: JSON.stringify({
+                orderID: orderID,
+                transID: details.id,
+                payment_method: payment_method,
+                status: details.status,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("SUCCESS", data);
+                console.log("Transaction completed!");
+                document.getElementById("spinner").style.display = "none";
+                window.location.href =
+                  redirect_url +
+                  "?invoice_number=" +
+                  data.invoice_number +
+                  "&payment_id=" +
+                  data.transID;
+              });
+          }
+        });
+      },
+    })
+    .render("#paypal-button-container");
+</script>
+
+{% endblock content %}

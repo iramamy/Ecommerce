@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 import datetime
+import json
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 from cart.models import Cart
 from order.models import Order, OrderItem
+from userauths.models import Address
 
 
 # Create order number
@@ -12,68 +16,56 @@ def order_number():
     now = datetime.datetime.now()
     return now.strftime("%Y%m%d%H%M%S")
 
-
 @login_required(login_url='signin')
 def checkout(request):
 
-    # Show item in check out
-    total_amount = 0
-    
-    try:
-        checkout_items = Cart.objects.filter(
-            user=request.user
-        )
+    address = None
 
-        for item in checkout_items:
-            total_amount += item.product_quantity * item.product.price
-        
-    except Cart.DoesNotExist:
-        checkout_items = None
+    # Save address
+    if request.method == 'POST':
+        address_data = json.loads(request.body)
 
-    try:
-        order, order_created = Order.objects.get_or_create(
+        address, create = Address.objects.get_or_create(
             user=request.user,
-            price=total_amount,
-            product_status='processing',
-            paid_status=False,
             defaults={
-                'invoice_number': order_number()
+                'first_name': address_data['first_name'],
+                'last_name': address_data['last_name'],
+                'address1': address_data['address1'],
+                'address2': address_data['address2'],
+                'country': address_data['country'],
+                'city': address_data['city'],
+                'zipcode': address_data['zipcode'],
+                'phone': address_data['phone'],
+                'email': address_data['email'],
+                'company_name': address_data['company_name'],
+                'additional_information': address_data['additional_info'],
             }
         )
-        if not order_created:
-            order.invoice_number = order_number()
-            order.save()
+        if not create:
+            address.first_name = address_data['first_name']
+            address.last_name = address_data['last_name']
+            address.address1 = address_data['address1']
+            address.address2 = address_data['address2']
+            address.country = address_data['country']
+            address.city = address_data['city']
+            address.zipcode = address_data['zipcode']
+            address.phone = address_data['phone']
+            address.email = address_data['email']
+            address.company_name = address_data['company_name']
+            address.additional_information = address_data['additional_info']
+            address.save()
 
-    except Order.DoesNotExist:
-        pass
-
-    # Plage items to order item
-    try:
-        for item in checkout_items:
-
-            order_item, order_item_created = OrderItem.objects.get_or_create(
-                order=order,
-                item=item.product.title,
-                quantity=item.product_quantity,
-                image=item.product.image,
-                price=item.product.price,
-                total=item.product.price*item.product_quantity,
-                product_status=order.product_status.capitalize()
-            )
-
-            print('image', item.product.image)
-
-            if not order_item_created:
-                pass
-
-    except OrderItem.DoesNotExist:
-        pass
 
     context = {
-        'checkout_items': checkout_items,
-        'total_item': checkout_items.count(),
-        'total_amount': round(total_amount, 2),
-        'order_number': order.invoice_number
+        # 'checkout_items': checkout_items,
+        # 'total_item': checkout_items.count(),
+        # 'total_amount': round(total_amount, 2),
+        # 'order_number': order.invoice_number,
+        'address': address
     }
 
-    return render(request, 'checkout/checkout.html', context)
+    data = render_to_string('checkout/checkout.html', context)
+
+    return JsonResponse({
+        'data': data
+    })

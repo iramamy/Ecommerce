@@ -25,6 +25,7 @@ class Address(models.Model):
     phone = models.CharField(max_length=20, null=True)
     city = models.CharField(max_length=255, blank=True, null=True)
     country = models.CharField(max_length=255, blank=True, null=True)
+    company_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField()
     additional_information = models.TextField(blank=True, null=True)
     status = models.BooleanField(default=False)
@@ -33,4 +34,4 @@ class Address(models.Model):
         verbose_name_plural = 'Address'
 
     def __str__(self):
-        return self.user.username
+        return self.address1

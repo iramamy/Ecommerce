@@ -214,6 +214,15 @@ input[type=number]:focus,
     box-shadow: none;
 }
 
+#paypal-button-container {
+    display: none; /* Initially hide the container */
+}
+
+/* Input error */
+input.error, textarea.error, select.error {
+    border: 1px solid rgb(224, 62, 62) !important;
+}
+
 input:focus::-moz-placeholder {
     opacity: 0;
     -webkit-transition: .4s;

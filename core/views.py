@@ -48,6 +48,7 @@ def product_list(request):
     products = Product.objects.filter(
         product_status='published'
     )
+    
     product_count = products.count()
     product = Product.objects.first()
 

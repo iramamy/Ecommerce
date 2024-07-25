@@ -42,8 +42,9 @@ class OrderAdmin(admin.ModelAdmin):
 
     list_display = [
         "user",
+        'address',
         'invoice_number',
-        'payement',
+        'payment',
         "price",
         'paid_status',
         'product_status',
@@ -51,15 +52,14 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
     readonly_fields = [
+        'address',
         "user",
         'invoice_number',
-        'payement',
+        'payment',
         "price",
         'paid_status',
         'order_date',        
-    ]
-
-    
+    ]    
     
     inlines = [OrderItemInline]
 

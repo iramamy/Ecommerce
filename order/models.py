@@ -2,7 +2,7 @@ from django.db import models
 from userauths.models import User
 from django.utils.html import mark_safe
 from core.models import Product
-
+from userauths.models import Address
 
 
 STATUS_CHOICE = (
@@ -26,6 +26,7 @@ class Payment(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
     invoice_number = models.CharField(max_length=200)
 
     price = models.DecimalField(
@@ -41,7 +42,7 @@ class Order(models.Model):
         default='processing',
         max_length=30)
 
-    payement = models.ForeignKey(
+    payment = models.ForeignKey(
         Payment,
         on_delete=models.SET_NULL,
         blank=True,
