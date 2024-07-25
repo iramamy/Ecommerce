@@ -70,7 +70,7 @@ def place_order(request):
             )
 
             if not order_item_created:
-                pass
+                order.save()
 
     except OrderItem.DoesNotExist:
         pass
@@ -121,8 +121,13 @@ def payment(request):
         status=body['status'],
     )
 
+    # Address
+    address = Address.objects.get(user=request.user)
+
     # Save
     payment.save()
+    order.address = address
+    order.save()
 
     if payment.status != 'COMPLETED':
         return redirect('payment_failed')

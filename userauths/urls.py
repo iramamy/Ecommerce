@@ -15,4 +15,12 @@ urlpatterns = [
     # User order detail
     path("order-detail/<int:orderID>/", views.order_detail, name='order_detail'),
 
+    # Address
+    path("address/", views.address, name='address'),
+
+    # Change addresses
+    path("billing-address/", views.billing_address, name='billing_address'),
+    path("shipping-address/", views.shipping_address, name='shipping_address'),
+
+
 ]

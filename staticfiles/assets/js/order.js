@@ -1,8 +1,5 @@
-console.log(
-    "ORDER ORDER ORDER"
-)
-
 // Order
+
 $(document).ready(function() {
     $('#orders-tab').on('click', function() {
         // event.preventDefault();
@@ -13,12 +10,17 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 console.log("GREAT")
-                // console.log('data', response.data);
+                if (response.orders_count===0){
+                    console.log("IT IS ")
+                // console.log('data', response.orders_count);
+                    $("#order-detail-container").hide()
+                };
                 $('#order-detail-container').html(response.data);
             },
         });
     });
 });
+
 
 // Order Product detail
 $(document).ready(function() {

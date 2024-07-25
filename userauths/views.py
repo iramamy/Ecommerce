@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 
 from .forms import UserRegisterForm
-from .models import User
+from .models import User, Address
 from order.models import Order, OrderProduct
 
 
@@ -75,6 +75,7 @@ def signin(request):
     return render(request, 'userauths/signin.html')
 
 
+@login_required(login_url='signin')
 def signout(request):
     auth.logout(request)
 
@@ -84,9 +85,16 @@ def signout(request):
 # User dashbord
 @login_required(login_url='signin')
 def dashboard_view(request):
-    return render(request, 'userauths/dashboard.html')
-    
 
+    address = Address.objects.get(user=request.user)
+
+    context = {
+        'address': address,
+    }
+
+    return render(request, 'userauths/dashboard.html', context)
+    
+@login_required(login_url='signin')
 def dashboard_order(request):
     # Get orders
     orders = Order.objects.filter(
@@ -94,18 +102,27 @@ def dashboard_order(request):
         paid_status=True
     ).annotate(item_count=Count('orderitem')).order_by('-order_date')
 
-    context = {
-        'orders': orders,
-    }
+    orders_count = orders.count()
 
-    
-    data = render_to_string('userauths/async/dashboard-order.html', context)
+    if orders_count:
+        context = {
+            'orders': orders,
+        }
 
-    return JsonResponse({
-        'data': data
-    })
+        data = render_to_string('userauths/async/dashboard-order.html', context)
+
+        return JsonResponse({
+            'data': data,
+        })
+    else:
+        data = render_to_string('userauths/async/no-order.html')
+
+        return JsonResponse({
+            'data': data,
+        })
 
 
+@login_required(login_url='signin')
 def order_detail(request, orderID):
     order = Order.objects.get(
         user=request.user,
@@ -122,6 +139,41 @@ def order_detail(request, orderID):
         'order': order,
     }
     data = render_to_string('userauths/order-detail.html', context)
+
+    return JsonResponse({
+        'data': data
+    })
+
+def address(request):
+    address = Address.objects.get(user=request.user)
+
+    context = {
+        'address': address,
+    }
+
+    data = render_to_string('userauths/async/address.html', context)
+
+    return JsonResponse({
+        'data': data
+        })
+
+def billing_address(request):
+
+    address = Address.objects.get(user=request.user)
+
+    context = {
+        'address': address,
+    }
+
+    data = render_to_string('userauths/async/billing-address.html', context)
+
+    return JsonResponse({
+        'data': data
+    })
+
+def shipping_address(request):
+
+    data = render_to_string('userauths/async/shipping-address.html')
 
     return JsonResponse({
         'data': data

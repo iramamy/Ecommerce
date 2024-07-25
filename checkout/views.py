@@ -57,10 +57,6 @@ def checkout(request):
 
 
     context = {
-        # 'checkout_items': checkout_items,
-        # 'total_item': checkout_items.count(),
-        # 'total_amount': round(total_amount, 2),
-        # 'order_number': order.invoice_number,
         'address': address
     }
 
