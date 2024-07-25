@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "wishlist",
     "checkout",
     "order",
+    "contact",
 
 ]
 

@@ -1,3 +1,4 @@
+// Address
 $(document).ready(function() {
     $('#address-tab').on('click', function() {
         
@@ -6,7 +7,6 @@ $(document).ready(function() {
             method: "GET",
             dataType: 'json',
             success: function(response) {
-                console.log("Address tab", response)
                 $('#billing-address').html(response.data);
             },
         });

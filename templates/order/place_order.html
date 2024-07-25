@@ -27,16 +27,9 @@
       </h6>
     </div>
   </div>
-  <div class="row">
+  <div class="row container">
     <div class="col-lg-7">
-      <div class="row mb-50">
-        <div class="">
-          <form method="post" class="apply-coupon">
-            <input type="text" placeholder="Enter Coupon Code..." />
-            <button class="btn btn-md" name="login">Apply Coupon</button>
-          </form>
-        </div>
-      </div>
+      
       <div class="row" id="order2checkout">
         <h3 class="mb-30">Billing Details</h3>
         <form id="userForm" method="POST">
@@ -137,7 +130,7 @@
       </div>
     </div>
     <div class="col-lg-5">
-      <div class="border p-40 cart-totals ml-30 mb-50">
+      <div class="border p-40 cart-totals mb-30">
         <div class="d-flex align-items-end justify-content-between mb-30">
           <h4>Your Order</h4>
           <h6 class="text-muted">Subtotal</h6>
@@ -150,7 +143,7 @@
 
               <tr>
                 <td class="image product-thumbnail">
-                  <img src="{{item.product.image.url}}" alt="#" />
+                  <img src="{{item.product.image.url}}" alt="Product image" />
                 </td>
                 <td>
                   <h6 class="w-160 mb-5">
@@ -175,7 +168,6 @@
                 </td>
                 <td>
                   <h4 class="text-brand">${{item.product_subtotal}}</h4>
-                  <span>{{order_number}}</span>
                 </td>
               </tr>
               {% endfor %}
@@ -183,7 +175,16 @@
           </table>
         </div>
       </div>
-      <div class="payment ml-30">
+      <div class="payment">
+        <div class="row mb-50">
+          <div class="">
+            <form method="post" class="apply-coupon">
+              <input type="text" placeholder="Enter Coupon Code..." />
+              <button class="btn btn-md" name="login">Apply Coupon</button>
+            </form>
+          </div>
+        </div>
+
         <h4 class="mb-30">Payment</h4>
         <div class="payment_option">
           <div class="custome-radio">
