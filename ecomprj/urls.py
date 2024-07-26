@@ -32,6 +32,7 @@ urlpatterns = [
     path("checkout/", include("checkout.urls")),
     path("order/", include("order.urls")),
     path("contact/", include("contact.urls")),
+    path("useradmin/", include("useradmin.urls")),
 
     path("ckeditor5/", include("django_ckeditor_5.urls")),
 

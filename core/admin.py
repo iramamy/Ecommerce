@@ -5,7 +5,8 @@ from .models import (
     Vendor,
     Product,
     ProductImage,
-    ProductReview
+    ProductReview,
+    Coupon
 )
 
 class ProductImageAdmin(admin.TabularInline):
@@ -62,9 +63,16 @@ class ProductReviewAdmin(admin.ModelAdmin):
         'review',
         'date',
     ]
-    
+
+class CouponAdmin(admin.ModelAdmin):
+    list_display = [
+        'code',
+        'discount',
+        'active'
+    ]
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(ProductReview, ProductReviewAdmin)
+admin.site.register(Coupon, CouponAdmin)
