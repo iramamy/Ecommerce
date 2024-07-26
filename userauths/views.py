@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+import json
 
 from .forms import UserRegisterForm
 from .models import User, Address
@@ -130,8 +131,6 @@ def order_detail(request, orderID):
         invoice_number=orderID
     )
 
-    print("Order", order)
-
     order_products = OrderProduct.objects.filter(order=order).order_by('-created_at')
 
     context = {
@@ -159,13 +158,58 @@ def address(request):
 
 def billing_address(request):
 
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        address, create = Address.objects.get_or_create(
+            user=request.user,
+            defaults={
+                'first_name': data['first_name'],
+                'last_name': data['last_name'],
+                'address1': data['address1'],
+                'address2': data['address2'],
+                'country': data['country'],
+                'city': data['city'],
+                'zipcode': data['zipcode'],
+                'phone': data['phone'],
+                'email': data['email'],
+                'company_name': data['company_name'],
+            }
+        )
+        if not create:
+            address.first_name = data['first_name']
+            address.last_name = data['last_name']
+            address.address1 = data['address1']
+            address.address2 = data['address2']
+            address.country = data['country']
+            address.city = data['city']
+            address.zipcode = data['zipcode']
+            address.phone = data['phone']
+            address.email = data['email']
+            address.company_name = data['company_name']
+            address.save()
+
+            context = {
+                'address': address,
+            }
+
+            data = render_to_string('userauths/async/address.html', context)
+
+            return JsonResponse({
+                'data': data
+                })
+
     address = Address.objects.get(user=request.user)
 
     context = {
         'address': address,
     }
 
-    data = render_to_string('userauths/async/billing-address.html', context)
+    data = render_to_string(
+        'userauths/async/billing-address.html',
+        context,
+        request=request
+        )
 
     return JsonResponse({
         'data': data

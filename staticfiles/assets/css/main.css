@@ -214,7 +214,11 @@ input[type=number]:focus,
     box-shadow: none;
 }
 
-#paypal-button-container, .contact-us-popup {
+/* Custom */
+
+#paypal-button-container,
+.contact-us-popup,
+.address-message-popup{
     display: none; /* Initially hide the container */
 }
 

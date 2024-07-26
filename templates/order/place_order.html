@@ -304,13 +304,6 @@
         height: 40,
       },
 
-      // onClick(){
-      //   console.log('total_amount', total_amount);
-      //   console.log('orderID', orderID);
-      //   console.log('total_amount', total_amount);
-      //   console.log('payment_method', payment_method);
-      // },
-
       createOrder: function (data, actions) {
         return actions.order.create({
           purchase_units: [
@@ -326,7 +319,6 @@
         document.getElementById("spinner").style.display = "block";
 
         return actions.order.capture().then(function (details) {
-          console.log("Details", details);
 
           sendData();
           function sendData() {
@@ -345,9 +337,9 @@
             })
               .then((response) => response.json())
               .then((data) => {
-                console.log("SUCCESS", data);
-                console.log("Transaction completed!");
+
                 document.getElementById("spinner").style.display = "none";
+                
                 window.location.href =
                   redirect_url +
                   "?invoice_number=" +

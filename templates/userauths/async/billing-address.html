@@ -1,10 +1,10 @@
-  <div class="row">
+  <div class="row" id="billing-address">
     <div class="mb-20 d-flex">
         <h3>
             Billing address
         </h3>
     </div>
-    <form id="userForm" method="POST">
+    <form id="billingForm" method="POST">
         {% csrf_token %}
         <div class="row">
           <div class="form-group col-lg-6">
@@ -93,7 +93,10 @@
         </div>
       </form>
       <div>
-        <a href="#" class="btn mt-30">
+        <a
+          class="btn mt-30"
+          id="billing-address-btn"
+          >
             Save
         </a>
       </div>
