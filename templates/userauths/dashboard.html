@@ -1,6 +1,4 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 <main class="main pages">
   <div class="page-header breadcrumb-wrap">
@@ -22,9 +20,134 @@
               {% include 'includes/dashboard-sidebar.html' %}
             </div>
             <div class="col-md-9">
-              <div class="tab-content account dashboard-content pl-50">
+              <div class="tab-content account profile-content pl-50">
                 <div
                   class="tab-pane fade active show"
+                  id="profile"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                >
+                  <div class="card" id="user-profile">
+                    <div class="card-header border-bottom">
+                      <h3 class="mb-0">My Profile</h3>
+                    </div>
+                    <div class="card-body">
+                      <div>
+                        <div class="">
+                          <form
+                            id="profile-picture-form"
+                            method="POST"
+                            enctype="multipart/form-data"
+                          >
+                            {% csrf_token %}
+                          </form>
+
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <img
+                                      src="{{profile.image.url}}"
+                                      alt="Profile picture"
+                                      class="rounded-circle img-fluid"
+                                      style="width: 150px"
+                                    />
+
+                                  <h5 class="my-3">
+                                    {{profile.full_name}}
+                                  </h5>
+                                  <div
+                                    class="d-flex justify-content-center mb-2"
+                                  >
+                                    <button
+                                      type="button"
+                                      class="btn btn-primary"
+                                      id="edit-profile-user-btn"
+                                    >
+                                      Edit Profile
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-8">
+                              <div class="card mb-4">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">First Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0">
+                                        {{profile.first_name}}
+                                    </div>
+                                  </div>
+                                  <hr />
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Last Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0">
+                                        {{profile.last_name}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <hr />
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">User Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0">
+                                        {{profile.user.username}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <hr />
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0">
+                                        {{profile.user.email}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <hr />
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0">
+                                        {{profile.phone_number}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <hr />
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Bio</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0">
+                                        {{profile.bio}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade show"
                   id="dashboard"
                   role="tabpanel"
                   aria-labelledby="dashboard-tab"
@@ -50,31 +173,27 @@
                   role="tabpanel"
                   aria-labelledby="orders-tab"
                 >
-                
-
-                <div class="card" id="order-detail-container">
-                  <div class="card-header">
-                    <h3 class="mb-0">Your Orders</h3>
-                  </div>
-                  <div class="card-body" id="dashboard-orders">
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Order</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody></tbody>
-                      </table>
+                  <div class="card" id="order-detail-container">
+                    <div class="card-header">
+                      <h3 class="mb-0">Your Orders</h3>
+                    </div>
+                    <div class="card-body" id="dashboard-orders">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Order</th>
+                              <th>Date</th>
+                              <th>Status</th>
+                              <th>Total</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
-                </div>
-                  
-                  
                 </div>
                 <div
                   class="tab-pane fade"
@@ -137,6 +256,7 @@
                   <div class="row" id="billing-address">
                     <!-- Address sync -->
                   </div>
+
                 </div>
                 <div
                   class="tab-pane fade"

@@ -1,0 +1,157 @@
+<div class="card" id="user-profile">
+
+  <input type="hidden" name="" id="profile-username" value="{{usernames}}">
+
+  <div class="card-header border-bottom">
+    <h3 class="mb-0">Edit Profile</h3>
+  </div>
+  <div class="card-body user-profile">
+    <div>
+      <div class="">
+        <form id="profile-form" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <input
+                    type="file"
+                    id="profile-picture-input"
+                    name="profile_picture"
+                    accept="image/*"
+                    style="display: none"
+                    onchange="previewProfilePicture(event)"
+                  />
+                  <img
+                    id="profile-picture"
+                    src="{{ profile.image.url }}"
+                    alt="Profile picture"
+                    class="rounded-circle img-fluid user-edit-profile-img"
+                    style="width: 150px"
+                    onclick="document.getElementById('profile-picture-input').click();"
+                  />
+                  <h5 class="my-3">{{profile.full_name}}</h5>
+                  <div class="d-flex justify-content-center mb-2">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      id="save-profile"
+                    >
+                      Save Profile
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">First Name *</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        class="profile-input"
+                        type="text"
+                        name="first_name"
+                        value="{{profile.first_name}}"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Last Name *</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        class="profile-input"
+                        type="text"
+                        name="last_name"
+                        value="{{profile.last_name}}"
+                      />
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">User Name *</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        class="profile-input"
+                        type="text"
+                        name="user_name"
+                        value="{{profile.user.username}}"
+                        required
+                      />
+                      <span class="mb-0 username-exist">username already exist</span> 
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Email *</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        class="profile-input"
+                        type="email"
+                        name="email"
+                        value="{{profile.user.email}}"
+                      />
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Phone *</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        class="profile-input"
+                        type="text"
+                        name="phone"
+                        value="{{profile.phone_number}}"
+                      />
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Bio *</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        class="profile-input"
+                        type="text"
+                        name="bio"
+                        value="{{profile.bio}}"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function previewProfilePicture(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById("profile-picture").src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+</script>

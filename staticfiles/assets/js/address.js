@@ -27,6 +27,7 @@ $(document).ready(function() {
     });
 });
 
+
 // Change shipping address view
 $(document).ready(function() {
     $('#billing-address').on('click', '#edit-shipping-address-btn', function() {
@@ -66,9 +67,8 @@ $(document).on('click', '#billing-address-btn', function(event){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     var url = '/user/billing-address/';
     var isValid = true;
-    var redirect_url =  '/user/address/';
 
-    $('input, textarea').removeClass('error');
+    $('input').removeClass('error');
 
     // required input validation
     formData.forEach(function(field) {
@@ -105,7 +105,8 @@ $(document).on('click', '#billing-address-btn', function(event){
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.data)
+
+                console.log("CLICK BILLING ADDRESS", data.data)
                 $('#billing-address').html(data.data);
                 $('.address-message-popup').show()
             })

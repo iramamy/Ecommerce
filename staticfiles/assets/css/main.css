@@ -218,7 +218,8 @@ input[type=number]:focus,
 
 #paypal-button-container,
 .contact-us-popup,
-.address-message-popup{
+.address-message-popup,
+.profile-update-popup{
     display: none; /* Initially hide the container */
 }
 
@@ -227,11 +228,37 @@ input.error, textarea.error, select.error {
     border: 1px solid rgb(224, 62, 62) !important;
 }
 
+input.profile_error {
+    border-bottom: 1px solid rgb(224, 62, 62) !important;
+}
+
+.username-exist {
+    display: none;
+    color: rgb(224, 62, 62);
+    font-size: 12px;
+}
+
 input:focus::-moz-placeholder {
     opacity: 0;
     -webkit-transition: .4s;
     transition: .4s;
 }
+
+.profile-input{
+    padding: 0 0 5px 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #ececec !important;
+    border-radius: 0 !important;
+    height: 25px !important;
+}
+
+.user-edit-profile-img {
+    cursor: pointer;
+}
+
+
+/* End custom */
 
 a {
     color: #3BB77E;

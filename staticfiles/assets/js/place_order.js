@@ -57,7 +57,7 @@ $(document).on('click', '#checkout-btn', function(event){
                   },
                 body: JSON.stringify(formDataJson),
             })
-            .then((response) => response.json())
+            .then((respone) => respone.json())
             .then((data) => {
                 // console.log("YES", data.data)
                 $('#checkout-btn').hide();
@@ -67,4 +67,3 @@ $(document).on('click', '#checkout-btn', function(event){
         }
     };
 })
-

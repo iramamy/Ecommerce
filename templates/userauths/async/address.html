@@ -5,13 +5,17 @@
         <h3 class="mb-0">Billing Address</h3>
       </div>
       <div class="card-body">
+        
+        {% if address %}
         <address>
           {{address.address1}}<br />
           {{address.address2}}<br />
           {{address.city}} <br />
           {{address.zipcode}}
         </address>
-        <p>{{address.country}}</p>
+        <p>{{address.country}}</p>          
+        {% endif %}
+          
         <a class="btn-small" id="edit-billing-address-btn"> Edit </a>
       </div>
     </div>

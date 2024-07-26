@@ -22,5 +22,13 @@ urlpatterns = [
     path("billing-address/", views.billing_address, name='billing_address'),
     path("shipping-address/", views.shipping_address, name='shipping_address'),
 
+    # User profile
+    path("profile/", views.user_profile, name='user_profile'),
+    path("edit-profile/", views.edit_profile, name='edit_profile'),
+
+    # Save edited profile
+    path("save-profile/", views.save_edited_profile, name='save_edited_profile'),
+    
+
 
 ]

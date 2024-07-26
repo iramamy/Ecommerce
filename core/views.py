@@ -46,7 +46,8 @@ def product_list(request):
     """
     
     products = Product.objects.filter(
-        product_status='published'
+        product_status='published',
+        stock_count__gt=0
     )
     
     product_count = products.count()
@@ -54,9 +55,6 @@ def product_list(request):
 
     # Get all related images
     related_images = product.p_images.all()
-
-    for img in related_images:
-        print(img.image.url)
 
     context = {
         'products': products,
@@ -97,7 +95,8 @@ def product_per_category(request, category_name, cid):
     category = Category.objects.get(cid=cid)
     products = Product.objects.filter(
         product_status='published',
-        category=category        
+        category=category,
+        stock_count__gt=0   
         )
     
     context = {
@@ -124,7 +123,8 @@ def vendor_detail(request, vendor_name, vid):
 
     products_per_vendor = Product.objects.filter(
         vendor=vendor, 
-        product_status='published'
+        product_status='published',
+        stock_count__gt=0
     )
 
     product_counts = products_per_vendor.values(
@@ -144,7 +144,8 @@ def product_detail(request, category_name, pid):
 
     product = Product.objects.get(pid=pid)
     products = Product.objects.filter(
-        category=product.category
+        category=product.category,
+        stock_count__gt=0
         ).exclude(pid=pid)
 
     if request.user.is_authenticated:
@@ -219,7 +220,8 @@ def search_product(request):
         if category_id:
             products = Product.objects.filter(
                 Q(title__icontains=keyword) | Q(description__icontains=keyword),
-                Q(category__cid=category_id), Q(product_status='published')
+                Q(category__cid=category_id), Q(product_status='published'),
+                Q(stock_count__gt=0)
             ).order_by('-date')
         else:
             products = Product.objects.filter(
@@ -246,7 +248,8 @@ def filter_product(request):
     max_price = request.GET.get('max_price')
 
     products = Product.objects.filter(
-        product_status='published'
+        product_status='published',
+        stock_count__gt=0
     ).order_by('-id').distinct()
 
     if len(categories_id)>0:
