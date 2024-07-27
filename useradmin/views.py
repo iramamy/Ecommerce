@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from core.models import Product, Category
+from core.models import Product, Category, ProductReview, Vendor
 from order.models import OrderProduct, Order
 from userauths.models import UserProfile
 from django.db.models import Sum
@@ -170,3 +170,86 @@ def delete_order(request, orderID):
     messages.success(request, f'Order #{orderID} delted successfully!')
 
     return redirect('admin_orders')
+
+
+def vendor_page(request, vendor_name, vid):
+    vendor = Vendor.objects.get(vid=vid)
+
+    products_per_vendor = Product.objects.filter(
+        vendor=vendor,
+    )
+
+    revenue_per_vendor = OrderProduct.objects.filter(
+        product__vendor=vendor
+    ).aggregate(total_price=Sum("product_price"))
+
+    product_sold = OrderProduct.objects.filter(
+        product__vendor=vendor
+    )
+
+    context = {
+        'vendor': vendor,
+        'products': products_per_vendor,
+        'revenue_per_vendor': revenue_per_vendor,
+        "products_per_vendor": products_per_vendor,
+        "product_sold": product_sold
+    }
+
+    return render(request, 'useradmin/vendor-page.html', context)
+
+def reviews(request):
+    product_review = ProductReview.objects.all()
+
+    context = {
+        'product_review': product_review
+    }
+
+    return render(request, 'useradmin/reviews.html', context)
+
+def settings(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == "POST":
+        profile_picture = request.FILES.get('profile_picture')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        phone = request.POST.get('phone')
+        bio = request.POST.get('bio')
+        address = request.POST.get('address')
+        country = request.POST.get('country')
+
+        # Save/update profile
+        profile, create = UserProfile.objects.get_or_create(
+            user=request.user,
+            defaults={
+                'first_name': first_name,
+                'last_name': last_name,
+                'bio': bio,
+                'phone_number': phone,
+                'image': profile_picture,
+                'address': address,
+                "country": country
+            }
+        )
+
+        if not create:
+            profile.first_name = first_name
+            profile.last_name = last_name
+            profile.phone_number = phone
+            profile.address = address
+            profile.country = country
+            if profile_picture:
+                profile.image = profile_picture
+            profile.bio = bio
+
+            profile.save()
+
+        messages.success(request, 'Profile updated!')
+
+        return redirect('settings')
+
+    context = {
+            'profile': user_profile
+        }
+
+    return render(request, 'useradmin/settings.html', context)

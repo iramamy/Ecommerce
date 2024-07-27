@@ -26,6 +26,9 @@ class UserProfile(models.Model):
     bio = models.TextField(blank=True, null=True, default='Bio')
     verified = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=100, blank=True, default='12345678')
+    address = models.CharField(max_length=200, blank=True, null=True, default='Your address')
+    country = models.CharField(max_length=200, blank=True, null=True, default='Your country')
+
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"

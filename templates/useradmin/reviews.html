@@ -3,12 +3,13 @@
 <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Order List</h2>
+            <h2 class="content-title card-title">Reviews</h2>
+            
         </div>
         <div>
             <input
                 type="text"
-                placeholder="Search order ID"
+                placeholder="Search by product"
                 class="form-control bg-white"
             />
         </div>
@@ -23,7 +24,7 @@
                         class="form-control"
                     />
                 </div>
-                <div class="col-lg-2 col-6 col-md-3">
+                <div class="col-lg-2 col-md-3 col-6">
                     <select class="form-select">
                         <option>Status</option>
                         <option>Active</option>
@@ -31,7 +32,7 @@
                         <option>Show all</option>
                     </select>
                 </div>
-                <div class="col-lg-2 col-6 col-md-3">
+                <div class="col-lg-2 col-md-3 col-6">
                     <select class="form-select">
                         <option>Show 20</option>
                         <option>Show 30</option>
@@ -41,64 +42,62 @@
             </div>
         </header>
         <!-- card-header end// -->
-
-        <!-- Message popup -->
-        {% include 'includes/alerts.html' %}
-        <!-- // Message popup -->
-
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#ID</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Action</th>
+                            <th>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value=""
+                                    />
+                                </div>
+                            </th>
+                            <th>Item</th>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                            <th>Date</th>
+                            <th class="text-end">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for order in orders %}
+                        {% for review in product_review %}
+
                         <tr>
-                            <td>{{order.invoice_number}}</td>
-                            <td>${{order.price}}</td>
                             <td>
-                                {% if order.product_status == "delivered" %}
-                                    <span class="badge badge-soft-success">
-                                        {{order.product_status|capfirst}}
-                                    </span>
-                                {% else %}
-                                    <span class="badge rounded-pill alert-warning">
-                                        {{order.product_status|capfirst}}
-                                    </span>
-                                {% endif %}
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value=""
+                                    />
+                                </div>
                             </td>
-
-                            {% if order.paid_status %}
+                            <td>{{review.product.id}}</td>
+                            <td><b>
+                                {{review.product.title}}
+                            </b></td>
+                            <td>{{review.user}}</td>
                             <td>
-                                <span class="badge badge-soft-success"
-                                    >Paid</span
-                                >
+                                {{review.rating}}
+                                <span>
+                                    <i
+                                        class="fa-solid fa-star"
+                                        style="color: rgb(221, 208, 22);"
+                                    ></i>
+                                </span>
                             </td>
-                            {% else %}
-                            <td>
-                                <span class="badge badge-soft-danger"
-                                    >Not Paid</span
+                            <td>{{review.review}}</td>
+                            <td>{{review.date|date:"Y M, d"}}</td>
+                            <td class="text-end">
+                                <a href="#" class="btn btn-md rounded font-sm"
+                                    >Detail</a
                                 >
-                            </td>
-                            {% endif %}
-
-                            <td>{{order.order_date|date:'d M, Y'}}</td>
-
-                            <td class="">
-                                <a
-                                    href="{% url 'admin_order_detail' order.invoice_number %}"
-                                    class="btn btn-md rounded font-sm"
-                                >
-                                    Detail
-                                </a>
                                 <div class="dropdown">
                                     <a
                                         href="#"
@@ -110,38 +109,32 @@
                                         ></i>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a
-                                            class="dropdown-item"
-                                            href="{% url 'admin_order_detail' order.invoice_number %}"
+                                        <a class="dropdown-item" href="#"
+                                            >View detail</a
                                         >
-                                            View detail
-                                        </a>
-                                        <a 
-                                            class="dropdown-item"
-                                            href="{% url 'admin_order_detail' order.invoice_number %}"
+                                        <a class="dropdown-item" href="#"
                                             >Edit info</a
                                         >
                                         <a
                                             class="dropdown-item text-danger"
-                                            href="{% url 'delete_order' order.invoice_number %}"
+                                            href="#"
+                                            >Delete</a
                                         >
-                                            Delete
-                                        </a>
                                     </div>
                                 </div>
                                 <!-- dropdown //end -->
                             </td>
                         </tr>
+
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <!-- table-responsive //end -->
+            <!-- table-responsive//end -->
         </div>
         <!-- card-body end// -->
     </div>
-    <!-- card end// -->
-    <div class="pagination-area mt-15 mb-50">
+    <div class="pagination-area mt-30 mb-50">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-start">
                 <li class="page-item active">
