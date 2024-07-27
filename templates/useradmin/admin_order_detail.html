@@ -1,196 +1,218 @@
-{% extends 'useradmin/base.html' %} {% load static %} {% block content %}
+{% extends 'useradmin/base.html' %}
+{% load static %}
+{% block content %}
 
 <section class="content-main">
-  <div class="content-header">
-    <div>
-      <h2 class="content-title card-title">Order #{{orders.invoice_number}}</h2>
-    </div>
-    <div>
-      {% if orders.paid_status %}
-      <div class="info">
-        <h6 class="badge badge-soft-success">Paid</h6>
-      </div>
-
-      {% else %}
-      <h6 class="badge badge-soft-danger">Not Paid</h6>
-      {% endif %}
-    </div>
-  </div>
-  
-  <!-- // -->
-  <div class="card mb-4">
-    <div class="card-body row">
-        <div class="col-md-4 mb-4 mb-md-0">
-          <h4 class="mb-15 text-brand">Cusomter</h4>
-          <strong>First name: </strong>
-          {{orders.address.first_name}}<br />
-          <strong>Last name: </strong>
-          {{orders.address.last_name}}<br />
-          <abbr title="Phone">Phone:</abbr> {{orders.address.phone}}<br />
-          <abbr title="Email">Email: </abbr
-          ><a
-            href="/cdn-cgi/l/email-protection"
-            class="__cf_email__"
-            data-cfemail="395a56574d585a4d797c4f584b58175a5654"
-            >{{orders.user.email}}</a
-          ><br />
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">
+                Order ID: #{{orders.invoice_number}}
+            </h2>
         </div>
-        <div class="col-md-4 mb-4 mb-md-0">
-          <h4 class="mb-15 text-brand">Order Info</h4>
-          <span>ID: </span>{{orders.payment}}<br />
-          <span>Method: </span>{{orders.payment.payment_method}}<br />
-          <abbr>Status: </abbr> {{orders.product_status|capfirst}}<br />
-          <abbr>Date: </abbr>{{orders.order_date}}
-        </div>
-        <div class="col-md-4">
-          <h4 class="mb-15 text-brand">Deliver to</h4>
-          <span>Address: </span>{{orders.address.address1}}<br />
-          <span>City: </span>{{orders.address.city}}<br />
-          <abbr>Country:</abbr>{{orders.address.country}}<br />
-          <abbr>Zipcode: </abbr>{{orders.address.zipcode}}
-        </div>
-      </div>
-
-      <!-- // -->
-    <div class="card-body">
-      <header class="card-header">
-        <div class="row d-flex">
-          <div class="col-lg-4 col-md-6 me-auto">
-            <input type="text" placeholder="Search..." class="form-control" />
-          </div>
-          <div class="col-lg-2 col-6 col-md-3">
-            <select class="form-select">
-              <option>Change order status</option>
-              <option>Processing</option>
-              <option>Shipped</option>
-              <option>Delivered</option>
-            </select>
-          </div>
-          <div class="col-lg-2 col-6 col-md-3">
-            <a href="#" class="btn btn-primary btn-sm rounded"> Save </a>
-          </div>
-        </div>
-      </header>
-      <article class="itemlist">
-        <div class="row align-items-center">
-          <div class="col col-check flex-grow-0">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" />
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-3 col-6 col-name">
-            <a class="itemside" href="#">
-              <div class="info">
-                <h6 class="mb-0">Product</h6>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-4 col-price">
-            <span>Price</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-4 col-price">
-            <span>Quantity</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-4 col-price">
-            <span>Subtotal</span>
-          </div>
-        </div>
-        <!-- row .// -->
-      </article>
-      <!-- itemlist  .// -->
-      {% for order in order_products %}
-
-      <article class="itemlist">
-        <div class="row align-items-center">
-          <div class="col col-check flex-grow-0">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" />
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-3 col-6 col-name">
-            <a class="itemside" href="#">
-              <div class="left">
-                <img
-                  src="{{order.product.image.url}}"
-                  class="img-sm img-thumbnail"
-                  alt="Item"
-                />
-              </div>
-              <div class="info">
-                <h6 class="mb-0">{{order.product.title}}</h6>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-4 col-price">
-            <span>${{order.product.price}}</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-4 col-price">
-            <span>${{order.quantity}}</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-4 col-price">
-            <span>${{order.total_price}}</span>
-          </div>
-        </div>
-        <!-- row .// -->
-      </article>
-      <!-- itemlist  .// -->
-
-      {% endfor %}
-
-      <div class="mt-10">
-        <div class="col-md-3 ms-auto">
-          <h4 class="text-brand">Total</h4>
-          <div class="d-flex justify-content-between">
-            <span>Tax: </span>
-            <span>$0.00</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span>Discount: </span>
-            <span>$0.00</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span>Shipping: </span>
-            <span>$0.00</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span>Grand total: </span>
-            <span>${{orders.price}}</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span>Status: </span>
-            <div>
-              {% if orders.paid_status %}
-              <div class="info">
+        <div>
+            {% if orders.paid_status %}
+            <div class="info">
                 <h6 class="badge badge-soft-success">Paid</h6>
-              </div>
-
-              {% else %}
-              <h6 class="badge badge-soft-danger">Not Paid</h6>
-              {% endif %}
             </div>
-          </div>
+            {% else %}
+            <h6 class="badge badge-soft-danger">Not Paid</h6>
+            {% endif %}
         </div>
-      </div>
     </div>
-    <!-- card-body end// -->
-  </div>
-  <!-- card end// -->
-  <div class="pagination-area mt-30 mb-50">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-start">
-        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-        <li class="page-item"><a class="page-link" href="#">02</a></li>
-        <li class="page-item"><a class="page-link" href="#">03</a></li>
-        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-        <li class="page-item"><a class="page-link" href="#">16</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#"
-            ><i class="material-icons md-chevron_right"></i
-          ></a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+
+    <!-- // -->
+    <div class="card mb-4">
+        <div class="card-body row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h4 class="mb-15 text-brand">Cusomter</h4>
+                <strong>First name: </strong>
+                {{orders.address.first_name}}<br />
+                <strong>Last name: </strong>
+                {{orders.address.last_name}}<br />
+                <abbr title="Phone">Phone:</abbr> {{orders.address.phone}}<br />
+                <abbr title="Email">Email: </abbr
+                ><a
+                    href="/cdn-cgi/l/email-protection"
+                    class="__cf_email__"
+                    data-cfemail="395a56574d585a4d797c4f584b58175a5654"
+                    >{{orders.user.email}}</a
+                ><br />
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h4 class="mb-15 text-brand">Order Info</h4>
+                <span>ID: </span>{{orders.payment}}<br />
+                <span>Method: </span>{{orders.payment.payment_method}}<br />
+                <abbr>Status: </abbr> {{orders.product_status|capfirst}}<br />
+                <abbr>Date: </abbr>{{orders.order_date}}
+            </div>
+            <div class="col-md-4">
+                <h4 class="mb-15 text-brand">Deliver to</h4>
+                <span>Address: </span>{{orders.address.address1}}<br />
+                <span>City: </span>{{orders.address.city}}<br />
+                <abbr>Country:</abbr>{{orders.address.country}}<br />
+                <abbr>Zipcode: </abbr>{{orders.address.zipcode}}
+            </div>
+        </div>
+
+        <!-- // -->
+        
+        <!-- Message popup -->
+        {% include 'includes/alerts.html' %}
+        <!-- // Message popup -->
+
+        <div class="card-body">
+            <header class="card-header mb-15">
+                <form
+                    action="{% url 'change_order_status' orders.invoice_number %}"
+                    method="POST"
+                >
+                    {% csrf_token %}
+                    <div class="row d-flex">
+                        <div class="col-md-4 d-flex">
+                            <select class="form-select" name="status">
+                                <option value="processing">
+                                    Change order status
+                                </option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-sm rounded"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </header>
+            <article class="itemlist">
+                <div class="row align-items-center">
+                    <div class="col col-check flex-grow-0">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-3 col-6 col-name">
+                        <a class="itemside" href="#">
+                            <div class="info">
+                                <h6 class="mb-0">Product</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-price">
+                        <span>Price</span>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-price">
+                        <span>Quantity</span>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-price">
+                        <span>Subtotal</span>
+                    </div>
+                </div>
+                <!-- row .// -->
+            </article>
+            <!-- itemlist  .// -->
+            {% for order in order_products %}
+
+            <article class="itemlist">
+                <div class="row align-items-center">
+                    <div class="col col-check flex-grow-0">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-3 col-6 col-name">
+                        <a class="itemside" href="#">
+                            <div class="left">
+                                <img
+                                    src="{{order.product.image.url}}"
+                                    class="img-sm img-thumbnail"
+                                    alt="Item"
+                                />
+                            </div>
+                            <div class="info">
+                                <h6 class="mb-0">{{order.product.title}}</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-price">
+                        <span>${{order.product.price}}</span>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-price">
+                        <span>${{order.quantity}}</span>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-price">
+                        <span>${{order.total_price}}</span>
+                    </div>
+                </div>
+                <!-- row .// -->
+            </article>
+            <!-- itemlist  .// -->
+
+            {% endfor %}
+
+            <div class="mt-10">
+                <div class="col-md-3 ms-auto">
+                    <h4 class="text-brand">Total</h4>
+                    <div class="d-flex justify-content-between">
+                        <span>Tax: </span>
+                        <span>$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Discount: </span>
+                        <span>$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Shipping: </span>
+                        <span>$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Grand total: </span>
+                        <span>${{orders.price}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Status: </span>
+                        <div>
+                            {% if orders.paid_status %}
+                            <div class="info">
+                                <h6 class="badge badge-soft-success">Paid</h6>
+                            </div>
+
+                            {% else %}
+                            <h6 class="badge badge-soft-danger">Not Paid</h6>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+    <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item active">
+                    <a class="page-link" href="#">01</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                <li class="page-item">
+                    <a class="page-link dot" href="#">...</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">16</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#"
+                        ><i class="material-icons md-chevron_right"></i
+                    ></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </section>
 
 {% endblock content %}

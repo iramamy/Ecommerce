@@ -129,6 +129,8 @@ def admin_order_detail(request, orderID):
         invoice_number=orderID
     )
 
+    print('product_status', orders.product_status)
+
     order_products = OrderProduct.objects.filter(
         order=orders
     )
@@ -139,3 +141,32 @@ def admin_order_detail(request, orderID):
     }
 
     return render(request, 'useradmin/admin_order_detail.html', context)
+
+def change_order_status(request, orderID):
+
+    order = Order.objects.get(invoice_number=orderID)
+
+    if request.method == 'POST':
+        status = request.POST.get('status')
+
+        order.product_status = status
+        order.save()
+
+        messages.success(request, f'Order status changed to {status}!')
+
+        return redirect('admin_order_detail', orderID)
+
+    else:
+        messages.error(request, f'Something went wrong!')
+
+
+def delete_order(request, orderID):
+    orders = Order.objects.get(
+        invoice_number=orderID
+    )
+
+    orders.delete()
+
+    messages.success(request, f'Order #{orderID} delted successfully!')
+
+    return redirect('admin_orders')
