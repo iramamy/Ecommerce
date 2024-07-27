@@ -113,3 +113,29 @@ def delete_product(request, pid):
     product.delete()
 
     return redirect('useradmin_products')
+
+
+########################## Orders ##########################
+def admin_orders(request):
+    orders = Order.objects.all().order_by('-id')
+    context = {
+        'orders': orders
+    }
+
+    return render(request, 'useradmin/admin_orders.html', context)
+
+def admin_order_detail(request, orderID):
+    orders = Order.objects.get(
+        invoice_number=orderID
+    )
+
+    order_products = OrderProduct.objects.filter(
+        order=orders
+    )
+
+    context = {
+        'orders': orders,
+        "order_products": order_products
+    }
+
+    return render(request, 'useradmin/admin_order_detail.html', context)

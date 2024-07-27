@@ -42,7 +42,7 @@
           <select class="form-select">
             <option selected>Status</option>
             
-            {% for _ , status_name in status %}
+            {% for status_code , status_name in status %}
             <option value="{{ status_code }}">{{ status_name }}</option>
             {% endfor %}
                 

@@ -373,7 +373,11 @@
                   {{order.payment.payment_method}}
                 </td>
                 <td>
-                  <a href="#" class="btn btn-xs"> View details</a>
+                  <a  
+                    href="{% url 'admin_order_detail' order.invoice_number %}"
+                    class="btn btn-xs">
+                    View details
+                  </a>
                 </td>
               </tr>
 

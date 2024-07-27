@@ -68,13 +68,13 @@
             </div>
           </li>
           <li class="menu-item has-submenu">
-            <a class="menu-link" href="page-orders-1.html">
+            <a class="menu-link" href="{% url 'admin_orders' %}">
               <i class="icon material-icons md-shopping_cart"></i>
               <span class="text">Orders</span>
             </a>
             <div class="submenu">
-              <a href="page-orders-1.html">Order list 1</a>
-              <a href="page-orders-2.html">Order list 2</a>
+              <a href="{% url 'admin_orders' %}">Order list 1</a>
+              <a href="{% url 'admin_orders' %}">Order list 2</a>
               <a href="page-orders-detail.html">Order detail</a>
             </div>
           </li>
@@ -99,6 +99,18 @@
               <a href="{% url 'useradmin_add_products' %}">Add product 2</a>
               <a href="{% url 'useradmin_add_products' %}">Add product 3</a>
               <a href="{% url 'useradmin_add_products' %}">Add product 4</a>
+            </div>
+          </li>
+          <li class="menu-item has-submenu">
+            <a class="menu-link" href="{% url 'useradmin_products' %}">
+              <i class="icon material-icons md-local_offer"></i>
+              <span class="text">Edit product</span>
+            </a>
+            <div class="submenu">
+              <a href="{% url 'useradmin_products' %}">Edit product 1</a>
+              <a href="{% url 'useradmin_products' %}">Edit product 2</a>
+              <a href="{% url 'useradmin_products' %}">Edit product 3</a>
+              <a href="{% url 'useradmin_products' %}">Edit product 4</a>
             </div>
           </li>
           <li class="menu-item has-submenu">
@@ -152,12 +164,6 @@
               <a href="page-settings-1.html">Setting sample 1</a>
               <a href="page-settings-2.html">Setting sample 2</a>
             </div>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="page-blank.html">
-              <i class="icon material-icons md-local_offer"></i>
-              <span class="text"> Starter page </span>
-            </a>
           </li>
         </ul>
         <br />
