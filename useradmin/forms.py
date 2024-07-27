@@ -1,4 +1,4 @@
-from core.models import Product, Category
+from core.models import Product, Category, Vendor
 from django import forms
 
 
@@ -54,14 +54,14 @@ class AddProductForm(forms.ModelForm):
         }
     ))
 
-    product_status = forms.ChoiceField(
-        choices=Product.STATUS,
+    vendor = forms.ModelChoiceField(
+        queryset=Vendor.objects.all(),
         widget=forms.Select(
             attrs={
                 'class': 'form-control'
             }
         )
-        )
+    )
 
     stock_count = forms.CharField(widget=forms.NumberInput(
         attrs={
@@ -118,7 +118,7 @@ class AddProductForm(forms.ModelForm):
                 'old_price',
                 'specifications',
                 'tags',
-                'product_status',
+                'vendor',
                 'status',
                 'featured',
                 'digital',

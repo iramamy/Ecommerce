@@ -5,7 +5,7 @@ from userauths.models import UserProfile
 from django.db.models import Sum
 
 from .forms import AddProductForm
-
+from django.contrib import messages
 import datetime
 
 def dashboard(request):
@@ -62,6 +62,7 @@ def add_products(request):
             new_form.user = request.user
             new_form.save()
             form.save_m2m()
+            
 
             return redirect('useradmin_dashboard')
         else:
@@ -75,3 +76,40 @@ def add_products(request):
     }
 
     return render(request, 'useradmin/add_products.html', context)
+
+
+def edit_products(request, pid):
+
+    product = Product.objects.get(
+        pid=pid
+    )
+
+    if request.method == 'POST':
+        
+        form = AddProductForm(request.POST, request.FILES, instance=product)
+
+        if form.is_valid():
+            new_form = form.save(commit=False)
+            new_form.user = request.user
+            new_form.save()
+            form.save_m2m()
+
+            return redirect('useradmin_edit_products', product.pid)
+        else:
+            print(form.errors)
+
+    else:
+        form = AddProductForm(instance=product)
+
+    context = {
+        'form': form,
+        'product': product
+    }
+
+    return render(request, 'useradmin/edit_products.html', context)
+
+def delete_product(request, pid):
+    product = Product.objects.get(pid=pid)
+    product.delete()
+
+    return redirect('useradmin_products')

@@ -4,7 +4,7 @@
 
 <section class="content-main">
   <form
-    action="{% url 'useradmin_add_products' %}"
+    action="{% url 'useradmin_edit_products' product.pid %}"
     method="POST"
     enctype="multipart/form-data"
     >
@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-9">
         <div class="content-header">
-          <h2 class="content-title">Add New Product</h2>
+          <h2 class="content-title">Edit Product</h2>
           <div>
             <button
               class="btn btn-light rounded font-sm mr-5 text-body hover-up"
@@ -22,7 +22,8 @@
             <button
               class="btn btn-md rounded font-sm hover-up"
               type="submit">
-              Publich</button>
+              Updated
+            </button>
           </div>
         </div>
       </div>
@@ -41,23 +42,23 @@
 
             <div class="mb-4">
               <label for="product_name" class="form-label">Product title</label>
-              {{form.title}}
+              {{form.title | safe}}
             </div>
             <div class="mb-4">
               <label class="form-label">Full description</label>
-              {{form.description}}
+              {{form.description | safe}}
             </div>
             <div class="row">
               <div class="col-lg-4">
                 <div class="mb-4">
                   <label class="form-label">Regular price</label>
-                  <div class="row gx-2">{{form.old_price}}</div>
+                  <div class="row gx-2">{{form.old_price |safe}}</div>
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="mb-4">
                   <label class="form-label">Promotional price</label>
-                  {{form.price}}
+                  {{form.price |safe}}
                 </div>
               </div>
               <div class="col-lg-4">
@@ -71,24 +72,24 @@
             </div>
             <div class="mb-4">
               <label class="form-label">Type</label>
-              {{form.product_type}}
+              {{form.product_type|safe}}
             </div>
             <div class="mb-4">
               <label class="form-label">Stock</label>
-              {{form.stock_count}}
+              {{form.stock_count |safe}}
             </div>
             <div class="mb-4">
               <label class="form-label">Life</label>
-              {{form.life}}
+              {{form.life |safe}}
             </div>
             <div class="mb-4">
               <label class="form-label">Manufactured Date</label>
-              {{form.manufactured}}
+              {{form.manufactured |safe}}
             </div>
             <div class="row d-flex w-100">
               <div class="col-lg-4">
                 <label class="form-label">Digital</label>
-                {{form.digital}}
+                {{form.digital |safe}}
               </div>
             </div>
             
@@ -100,7 +101,6 @@
             <h4>Shipping</h4>
           </div>
           <div class="card-body">
-            <form>
               <div class="row">
                 <div class="col-lg-6">
                   <div class="mb-4">
@@ -145,7 +145,6 @@
                   id="product_name"
                 />
               </div>
-            </form>
           </div>
         </div>
         <!-- card end// -->
@@ -158,10 +157,10 @@
           <div class="card-body">
             <div class="input-upload">
               <img
-                src="{% static 'assets/dashboard/imgs/theme/upload.svg' %}"
+                src="{{product.image.url}}"
                 alt=""
               />
-              {{form.image}}
+              {{form.image|safe}}
             </div>
           </div>
         </div>
@@ -174,15 +173,15 @@
             <div class="row gx-2">
               <div class="col-sm-6 mb-3">
                 <label class="form-label">Category</label>
-                {{form.category}}
+                {{form.category | safe}}
               </div>
               <div class="col-sm-6 mb-3">
                 <label class="form-label">Status</label>
-                    {{ form.vendor }}
+                    {{ form.vendor | safe }}
               </div>
               <div class="mb-4">
                 <label for="product_name" class="form-label">Tags</label>
-                {{form.tags}}
+                {{form.tags | safe}}
               </div>
             </div>
             <!-- row.// -->
