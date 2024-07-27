@@ -3,11 +3,15 @@ from core.models import Product, Category, ProductReview, Vendor
 from order.models import OrderProduct, Order
 from userauths.models import UserProfile
 from django.db.models import Sum
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.decorators import login_required
 
 from .forms import AddProductForm
 from django.contrib import messages
 import datetime
 
+
+@login_required(login_url='signin')
 def dashboard(request):
     
     revenue = OrderProduct.objects.aggregate(
@@ -39,6 +43,7 @@ def dashboard(request):
 
     return render(request, 'useradmin/useradmin.html', context)
 
+@login_required(login_url='signin')
 def products(request):
 
     all_products = Product.objects.all().order_by('-id')
@@ -53,6 +58,7 @@ def products(request):
 
     return render(request, 'useradmin/products.html', context)
 
+@login_required(login_url='signin')
 def add_products(request):
     if request.method == 'POST':
         
@@ -77,7 +83,7 @@ def add_products(request):
 
     return render(request, 'useradmin/add_products.html', context)
 
-
+@login_required(login_url='signin')
 def edit_products(request, pid):
 
     product = Product.objects.get(
@@ -108,6 +114,7 @@ def edit_products(request, pid):
 
     return render(request, 'useradmin/edit_products.html', context)
 
+@login_required(login_url='signin')
 def delete_product(request, pid):
     product = Product.objects.get(pid=pid)
     product.delete()
@@ -116,6 +123,7 @@ def delete_product(request, pid):
 
 
 ########################## Orders ##########################
+@login_required(login_url='signin')
 def admin_orders(request):
     orders = Order.objects.all().order_by('-id')
     context = {
@@ -124,6 +132,7 @@ def admin_orders(request):
 
     return render(request, 'useradmin/admin_orders.html', context)
 
+@login_required(login_url='signin')
 def admin_order_detail(request, orderID):
     orders = Order.objects.get(
         invoice_number=orderID
@@ -142,6 +151,7 @@ def admin_order_detail(request, orderID):
 
     return render(request, 'useradmin/admin_order_detail.html', context)
 
+@login_required(login_url='signin')
 def change_order_status(request, orderID):
 
     order = Order.objects.get(invoice_number=orderID)
@@ -159,7 +169,7 @@ def change_order_status(request, orderID):
     else:
         messages.error(request, f'Something went wrong!')
 
-
+@login_required(login_url='signin')
 def delete_order(request, orderID):
     orders = Order.objects.get(
         invoice_number=orderID
@@ -171,7 +181,7 @@ def delete_order(request, orderID):
 
     return redirect('admin_orders')
 
-
+@login_required(login_url='signin')
 def vendor_page(request, vendor_name, vid):
     vendor = Vendor.objects.get(vid=vid)
 
@@ -197,6 +207,7 @@ def vendor_page(request, vendor_name, vid):
 
     return render(request, 'useradmin/vendor-page.html', context)
 
+@login_required(login_url='signin')
 def reviews(request):
     product_review = ProductReview.objects.all()
 
@@ -206,7 +217,9 @@ def reviews(request):
 
     return render(request, 'useradmin/reviews.html', context)
 
+@login_required(login_url='signin')
 def settings(request):
+
     user_profile = UserProfile.objects.get(user=request.user)
 
     if request.method == "POST":
@@ -253,3 +266,30 @@ def settings(request):
         }
 
     return render(request, 'useradmin/settings.html', context)
+
+
+@login_required(login_url='signin')
+def change_password(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+
+        new_password = request.POST.get('new_password')
+        confirm_new_password = request.POST.get('confirm_new_password')
+
+        if not check_password(old_password, user.password):
+            messages.error(request, 'Old password is incorrect!')
+            return redirect('change_password')
+
+        user.set_password(new_password)
+        user.save()
+        messages.success(request, 'Password changed successfully!')
+        return redirect('signin')
+
+    context = {
+            'profile': user_profile
+        }
+
+    return render(request, 'useradmin/change_password.html', context)

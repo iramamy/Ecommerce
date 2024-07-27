@@ -10,7 +10,6 @@ from .models import Product, Category, Vendor, ProductReview
 from .forms import ReviewForm
 
 
-
 def index(request):
     """
     Renders the index page with a list of featured and published products.

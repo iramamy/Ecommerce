@@ -20,5 +20,6 @@ urlpatterns = [
     path("vendor-page/<str:vendor_name>/<str:vid>/", views.vendor_page, name='vendor_page'),
     path("reviews/", views.reviews, name='reviews'),
     path("settings/", views.settings, name='settings'),
+    path("change_password/", views.change_password, name='change_password'),
     
 ]
