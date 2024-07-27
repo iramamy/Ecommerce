@@ -25,22 +25,25 @@ def checkout(request):
     if request.method == 'POST':
         address_data = json.loads(request.body)
 
-        address = Address.objects.create(
+        address, created = Address.objects.get_or_create(
             user=request.user,
-            first_name=address_data['first_name'],
-            last_name=address_data['last_name'],
-            address1=address_data['address1'],
-            address2=address_data['address2'],
-            country=address_data['country'],
-            city=address_data['city'],
-            zipcode=address_data['zipcode'],
-            phone=address_data['phone'],
-            email=address_data['email'],
-            company_name=address_data['company_name'],
-            additional_information=address_data['additional_info'],
+            defaults={
+                'first_name': address_data['first_name'],
+                'last_name': address_data['last_name'],
+                'address1': address_data['address1'],
+                'address2': address_data['address2'],
+                'country': address_data['country'],
+                'city': address_data['city'],
+                'zipcode': address_data['zipcode'],
+                'phone': address_data['phone'],
+                'email': address_data['email'],
+                'company_name': address_data['company_name'],
+                'additional_information': address_data['additional_info'],
+            }
         )
 
-        if not create:
+
+        if not created:
             address.first_name = address_data['first_name']
             address.last_name = address_data['last_name']
             address.address1 = address_data['address1']

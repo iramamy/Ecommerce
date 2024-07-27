@@ -52,7 +52,7 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return f'{self.user.username}:{self.invoice_number}'
+        return f'{self.invoice_number}'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -73,8 +73,6 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"order-{self.order.id}"
 
-
-   
 class OrderProduct(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

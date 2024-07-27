@@ -1,12 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from core.models import Product, Category
-from order.models import OrderProduct
-from userauths.models import User
+from order.models import OrderProduct, Order
+from userauths.models import UserProfile
 from django.db.models import Sum
+
+from .forms import AddProductForm
 
 import datetime
 
 def dashboard(request):
+    
     revenue = OrderProduct.objects.aggregate(
         total_price=Sum("product_price")
     )
@@ -14,7 +17,9 @@ def dashboard(request):
     total_orders_count = OrderProduct.objects.all()
     all_products = Product.objects.all()
     all_categories = Category.objects.all()
-    new_customers = User.objects.all().order_by('-id')
+    new_customers = UserProfile.objects.all().order_by('-id')
+
+    orders = Order.objects.all().order_by('-order_date')
 
     this_month = datetime.datetime.now().month
 
@@ -29,7 +34,44 @@ def dashboard(request):
         'all_categories': all_categories,
         'new_customers': new_customers,
         'monthly_revenue': monthly_revenue,
+        'orders': orders
     }
 
     return render(request, 'useradmin/useradmin.html', context)
 
+def products(request):
+
+    all_products = Product.objects.all().order_by('-id')
+    all_categories = Category.objects.all()
+    status = Product.get_status()
+
+    context = {
+        'all_products': all_products,
+        'all_categories': all_categories,
+        'status': status
+    }
+
+    return render(request, 'useradmin/products.html', context)
+
+def add_products(request):
+    if request.method == 'POST':
+        
+        form = AddProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_form = form.save(commit=False)
+            new_form.user = request.user
+            new_form.save()
+            form.save_m2m()
+
+            return redirect('useradmin_dashboard')
+        else:
+            print(form.errors)
+
+    else:
+        form = AddProductForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'useradmin/add_products.html', context)

@@ -7,15 +7,6 @@ from django_ckeditor_5.fields import CKEditor5Field
 from taggit.managers import TaggableManager
 
 
-
-STATUS= (
-    ("draft", 'Draft'),
-    ("disabled", 'Disabled'),
-    ("rejected", 'Rejected'),
-    ("in_review", 'In review'),
-    ("published", 'Published'),
-)
-
 RATING= (
     (1, '★'),
     (2, '★★'),
@@ -94,6 +85,14 @@ class Vendor(models.Model):
 
 class Product(models.Model):
 
+    STATUS= (
+        ("draft", 'Draft'),
+        ("disabled", 'Disabled'),
+        ("rejected", 'Rejected'),
+        ("in_review", 'In review'),
+        ("published", 'Published'),
+    )
+
     pid = ShortUUIDField(
         unique=True, 
         length=10, 
@@ -161,6 +160,10 @@ class Product(models.Model):
     def get_percentage(self):
         new_price = (self.price / self.old_price) * 100
         return new_price
+        
+    @classmethod    
+    def get_status(self):
+        return self.STATUS
 
 
 class ProductImage(models.Model):
