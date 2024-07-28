@@ -9,9 +9,10 @@ from django.contrib.auth.decorators import login_required
 from .forms import AddProductForm
 from django.contrib import messages
 import datetime
+from .decorators import admin_required
 
 
-@login_required(login_url='signin')
+@admin_required
 def dashboard(request):
     
     revenue = OrderProduct.objects.aggregate(
@@ -43,7 +44,7 @@ def dashboard(request):
 
     return render(request, 'useradmin/useradmin.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def products(request):
 
     all_products = Product.objects.all().order_by('-id')
@@ -58,7 +59,7 @@ def products(request):
 
     return render(request, 'useradmin/products.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def add_products(request):
     if request.method == 'POST':
         
@@ -83,7 +84,7 @@ def add_products(request):
 
     return render(request, 'useradmin/add_products.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def edit_products(request, pid):
 
     product = Product.objects.get(
@@ -114,7 +115,7 @@ def edit_products(request, pid):
 
     return render(request, 'useradmin/edit_products.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def delete_product(request, pid):
     product = Product.objects.get(pid=pid)
     product.delete()
@@ -123,7 +124,7 @@ def delete_product(request, pid):
 
 
 ########################## Orders ##########################
-@login_required(login_url='signin')
+@admin_required
 def admin_orders(request):
     orders = Order.objects.all().order_by('-id')
     context = {
@@ -132,13 +133,11 @@ def admin_orders(request):
 
     return render(request, 'useradmin/admin_orders.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def admin_order_detail(request, orderID):
     orders = Order.objects.get(
         invoice_number=orderID
     )
-
-    print('product_status', orders.product_status)
 
     order_products = OrderProduct.objects.filter(
         order=orders
@@ -151,7 +150,7 @@ def admin_order_detail(request, orderID):
 
     return render(request, 'useradmin/admin_order_detail.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def change_order_status(request, orderID):
 
     order = Order.objects.get(invoice_number=orderID)
@@ -169,7 +168,7 @@ def change_order_status(request, orderID):
     else:
         messages.error(request, f'Something went wrong!')
 
-@login_required(login_url='signin')
+@admin_required
 def delete_order(request, orderID):
     orders = Order.objects.get(
         invoice_number=orderID
@@ -181,7 +180,7 @@ def delete_order(request, orderID):
 
     return redirect('admin_orders')
 
-@login_required(login_url='signin')
+@admin_required
 def vendor_page(request, vendor_name, vid):
     vendor = Vendor.objects.get(vid=vid)
 
@@ -207,7 +206,7 @@ def vendor_page(request, vendor_name, vid):
 
     return render(request, 'useradmin/vendor-page.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def reviews(request):
     product_review = ProductReview.objects.all()
 
@@ -217,7 +216,7 @@ def reviews(request):
 
     return render(request, 'useradmin/reviews.html', context)
 
-@login_required(login_url='signin')
+@admin_required
 def settings(request):
 
     user_profile = UserProfile.objects.get(user=request.user)
@@ -268,7 +267,7 @@ def settings(request):
     return render(request, 'useradmin/settings.html', context)
 
 
-@login_required(login_url='signin')
+@admin_required
 def change_password(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)

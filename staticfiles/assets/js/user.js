@@ -55,12 +55,12 @@ $(document).ready(function() {
         var email = $('input[name="email"]').val();
         var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         var url = '/user/save-profile/';
-        var username = $("#profile-username").val();
+        var usernames = $("#profile-username").val();
         var isValid = true;
         var input_username = $('input[name="user_name"]').val();
     
         $('input').removeClass('profile_error');
-    
+          
         // required input validation
         formData.forEach(function(field) {
             var element = $('[name="' + field.name + '"]');
@@ -77,7 +77,7 @@ $(document).ready(function() {
         }
 
         // Username validation
-        if (username.includes(input_username)) {
+        if (usernames.includes(input_username)) {
             isValid = false;
             $('input[name="user_name"]').addClass('profile_error');
             $(".username-exist").show();
