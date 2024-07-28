@@ -13,7 +13,7 @@
         <div class="col-xl-3 col-lg-4">
           <div class="header-info">
             <ul>
-              <li><a href="page-about.html">About Us</a></li>
+              <li><a href="{% url 'about_us' %}">About Us</a></li>
               <li><a href="{% url 'dashboard' %}">My Account</a></li>
               <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
               <li><a href="shop-order.html">Order Tracking</a></li>
@@ -237,11 +237,18 @@
                       >
                     </li>
                     <li>
-                      <a href="page-account.html"
+                      <a href="{% url 'dashboard' %}"
                         ><i class="fi fi-rs-settings-sliders mr-10"></i
                         >Setting</a
                       >
                     </li>
+                    {% if request.user.is_superuser %}
+                    <li>
+                      <a href="{% url 'useradmin_dashboard' %}"
+                        ><i class="fa-solid fa-thumbtack mr-10"></i></i>Admin</a
+                      >
+                    </li>
+                    {% endif %}
 
                     {% if request.user.is_authenticated %}
                     <li>
@@ -338,7 +345,7 @@
                   </ul>
                 </li>
                 <li>
-                  <a href="page-about.html">About</a>
+                  <a href="{% url 'about_us' %}">About</a>
                 </li>
 
                 <li>
@@ -533,7 +540,7 @@
                 <li>
                   <a href="#">Pages <i class="fi-rs-angle-down"></i></a>
                   <ul class="sub-menu">
-                    <li><a href="page-about.html">About Us</a></li>
+                    <li><a href="{% url 'about_us' %}">About Us</a></li>
                     <li><a href="{% url 'contact_us' %}">Contact</a></li>
                     <li><a href="{% url 'dashboard' %}">My Account</a></li>
                     <li><a href="page-login.html">Login</a></li>
@@ -806,7 +813,7 @@
             <li class="menu-item-has-children">
               <a href="#">Pages</a>
               <ul class="dropdown">
-                <li><a href="page-about.html">About Us</a></li>
+                <li><a href="{% url 'about_us' %}">About Us</a></li>
                 <li><a href="url 'contact_us' ">Contact</a></li>
                 <li><a href="{% url 'dashboard' %}">My Account</a></li>
                 <li><a href="{% url 'signin' %}">Login</a></li>
